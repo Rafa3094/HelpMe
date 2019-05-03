@@ -1,0 +1,15 @@
+Index: app/build.gradle
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/build.gradle	(revision 17e7c81ed1fd7e04e61d133047afc08e48e9d55f)
++++ app/build.gradle	(date 1556922883635)
+@@ -1,6 +1,7 @@
+ apply plugin: 'com.android.application'
+ 
+ android {
++
+     compileSdkVersion 28
+     defaultConfig {
+         applicationId "com.helpme"
