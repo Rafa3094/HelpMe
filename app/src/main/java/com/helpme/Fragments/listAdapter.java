@@ -42,15 +42,22 @@ public class listAdapter extends BaseAdapter {
         editImage.setImageResource(R.drawable.edit);
         deleteImage.setImageResource(R.drawable.delete);
         editImage.setTag(i);
-        //deleteImage.setTag(i);
+        deleteImage.setTag(i);
 
-        /*editImage.setOnClickListener(new View.onClickListener() {
-        @Override
-        public void onClick(View v) {
+        deleteImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
 
+            }
+        });
 
-        }
-        });*/
+        editImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+
         return view;
     }
 
@@ -68,6 +75,5 @@ public class listAdapter extends BaseAdapter {
     public long getItemId(int position) {
         return 0;
     }
-
 
 }

@@ -48,10 +48,10 @@
         android:id="@+id/textView3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="20dp"
+        android:layout_marginBottom="12dp"
         android:text="Contact list"
         android:textSize="18sp"
-        app:layout_constraintBottom_toTopOf="@+id/_dynamic"
-        tools:layout_editor_absoluteX="34dp" />
+        app:layout_constraintBottom_toTopOf="@+id/contactListView"
+        tools:layout_editor_absoluteX="25dp" />
 
 </android.support.constraint.ConstraintLayout>
