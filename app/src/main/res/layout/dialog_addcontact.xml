@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+    <TableLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/textViewTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="@string/DatosContacto"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:visibility="visible"
+                tools:text="@string/DatosContacto"
+                tools:visibility="visible" />
+
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/textViewNombre"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="@string/Nombre"
+                tools:text="@string/Nombre" />
+
+            <EditText
+                android:id="@+id/editTextNombre"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:inputType="textPersonName"
+                android:text="@string/name" />
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center">
+
+            <TextView
+                android:id="@+id/textViewTelefono"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="@string/Telefono"
+                tools:text="@string/Telefono" />
+
+            <EditText
+                android:id="@+id/editTextTelefono"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:inputType="phone" />
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <Button
+                android:id="@+id/buttonCancel"
+
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/Cancelar"
+                tools:text="@string/Cancelar" />
+
+            <Button
+                android:id="@+id/buttonOk"
+
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/Guardar"
+                tools:text="@string/Guardar" />
+        </TableRow>
+    </TableLayout>
+
+</android.support.constraint.ConstraintLayout>

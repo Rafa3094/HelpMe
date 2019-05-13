@@ -12,6 +12,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
 
 import com.helpme.Fragments.HomeFragment;
 import com.helpme.Fragments.InstitutionsFragment;
@@ -28,6 +30,8 @@ public class MainActivity extends AppCompatActivity
         loadFragment(new HomeFragment());
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        /*setupSetMessage();*/
 
         /*FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -49,6 +53,19 @@ public class MainActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
     }
 
+    /*
+    private void setupSetMessage() {
+        Button btn = (Button) findViewById(R.id.btnAddContact);
+        btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FragmentManager manager = getSupportFragmentManager();
+                WhiteListFragment dialog = new WhiteListFragment();
+                dialog.show(manager, "Msg");
+            }
+        });
+    }
+*/
     @Override
     public void onBackPressed() {
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
