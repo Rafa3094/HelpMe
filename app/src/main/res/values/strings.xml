@@ -10,6 +10,7 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="institutions_fragment">INSTITUTIONS FRAGMENT</string>
+<<<<<<< HEAD
     <string name="nombre_de_contacto" />
     <string name="name" />
     <string name="tel_fono_de_contacto" />
@@ -27,4 +28,6 @@
     <string name="NombreContactoEliminar">NombreContactoEliminar</string>
     <string name="eliminar">Eliminar</string>
     <string name="telefonoeliminar">TelefonoEliminar</string>
+=======
+>>>>>>> 3ec6a7d09e4a88426c8842adbe28b30792377232
 </resources>

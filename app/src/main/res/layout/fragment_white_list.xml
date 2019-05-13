@@ -6,6 +6,7 @@
     tools:context=".Fragments.WhiteListFragment">
 
     <!-- TODO: Update blank fragment layout -->
+<<<<<<< HEAD
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -29,5 +30,11 @@
             android:text="@string/white_list_fragment" />
 
     </LinearLayout>
+=======
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:text="WHITE LIST FRAGMENT" />
+>>>>>>> 3ec6a7d09e4a88426c8842adbe28b30792377232
 
 </FrameLayout>

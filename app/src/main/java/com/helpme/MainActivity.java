@@ -20,6 +20,11 @@ import com.helpme.Fragments.InstitutionsFragment;
 import com.helpme.Fragments.UserInfoFragment;
 import com.helpme.Fragments.WhiteListFragment;
 
+import com.helpme.Fragments.HomeFragment;
+import com.helpme.Fragments.InstitutionsFragment;
+import com.helpme.Fragments.UserInfoFragment;
+import com.helpme.Fragments.WhiteListFragment;
+
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -31,18 +36,6 @@ public class MainActivity extends AppCompatActivity
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        /*setupSetMessage();*/
-
-        /*FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-
-            }
-        });*/
-
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -53,19 +46,6 @@ public class MainActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
     }
 
-    /*
-    private void setupSetMessage() {
-        Button btn = (Button) findViewById(R.id.btnAddContact);
-        btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                FragmentManager manager = getSupportFragmentManager();
-                WhiteListFragment dialog = new WhiteListFragment();
-                dialog.show(manager, "Msg");
-            }
-        });
-    }
-*/
     @Override
     public void onBackPressed() {
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
@@ -106,6 +86,10 @@ public class MainActivity extends AppCompatActivity
 
         if (id == R.id.nav_home) {
             loadFragment(new HomeFragment());
+
+        } else if (id == R.id.nav_whiteList) {
+            loadFragment(new WhiteListFragment());
+
 
         } else if (id == R.id.nav_whiteList) {
             loadFragment(new WhiteListFragment());

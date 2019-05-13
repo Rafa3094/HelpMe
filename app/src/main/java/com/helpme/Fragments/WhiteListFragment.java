@@ -11,13 +11,16 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 
 import com.helpme.R;
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class WhiteListFragment extends Fragment /*AppCompatDialogFragment*/ {
+public class WhiteListFragment extends Fragment {
 
     public WhiteListFragment() {
         // Required empty public constructor
@@ -95,6 +98,5 @@ public class WhiteListFragment extends Fragment /*AppCompatDialogFragment*/ {
         });
         return v;
     }
-
 
 }
