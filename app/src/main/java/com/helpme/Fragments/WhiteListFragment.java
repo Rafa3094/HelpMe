@@ -11,9 +11,8 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
+import android.widget.ListView;
+//import java.util.ArrayList;
 
 import com.helpme.R;
 
@@ -22,18 +21,38 @@ import com.helpme.R;
  */
 public class WhiteListFragment extends Fragment {
 
+
+    //ArrayList<contact> contactList = new ArrayList();
+    View view;
+    ListView list;
+    String[][]  contactList = {
+            {"Angela", "89654712"},
+            {"Tony","61457856"},
+            {"Michael","75412569"}
+    };
+
+
     public WhiteListFragment() {
         // Required empty public constructor
     }
 
+
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.fragment_white_list, container, false);
-        v = callAddContact(v);
-        v = callKillContact(v);
-        return v; //inflater.inflate(R.layout.fragment_white_list, container, false);
+        super.onCreate(savedInstanceState);
+
+        view = inflater.inflate(R.layout.fragment_white_list, container, false);
+
+        view = callAddContact(view);
+
+        list = view.findViewById(R.id.contactListView);
+
+        list.setAdapter(new listAdapter(this.getContext(),contactList));
+
+        return view;
     }
+
 
     /**
      * Importante:
@@ -70,33 +89,5 @@ public class WhiteListFragment extends Fragment {
         return v;
     }
 
-    private View callKillContact(View v){
-
-        Button mShowDialog = (Button) v.findViewById(R.id.btnKillContact);
-
-        mShowDialog.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View view){
-                AlertDialog.Builder mBuilder = new AlertDialog.Builder(view.getContext());
-                View mView = getLayoutInflater().inflate(R.layout.dialog_killcontact,null);
-                Button mButtonCancel = (Button) mView.findViewById(R.id.buttonCancel);
-                Button mButtonSave = (Button) mView.findViewById(R.id.buttonOk);
-                mButtonSave.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        if(true){
-                            Toast.makeText(v.getContext(),"Has matado al contacto, felicidades.",Toast.LENGTH_SHORT).show();
-                        } else {
-                            Toast.makeText(v.getContext(),"Se han guardado los cambios",Toast.LENGTH_SHORT).show();
-                        }
-                    }
-                });
-                mBuilder.setView(mView);
-                AlertDialog dialog = mBuilder.create();
-                dialog.show();
-            }
-        });
-        return v;
-    }
 
 }
