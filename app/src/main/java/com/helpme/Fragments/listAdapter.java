@@ -33,8 +33,8 @@ public class listAdapter extends BaseAdapter {
 
 
     @Override
-    public View getView(int i, View convertView, ViewGroup parent) {
-
+    public View getView(int e, View convertView, ViewGroup parent) {
+        final int i = e;
         final View view = inflater.inflate(R.layout.contact_list_element, null);
 
         TextView name = (TextView) view.findViewById(R.id.textView4);
@@ -47,46 +47,66 @@ public class listAdapter extends BaseAdapter {
         deleteImage.setImageResource(R.drawable.delete);
         editImage.setTag(i);
         deleteImage.setTag(i);
+        deleteImage = deleteImageAction(deleteImage, i, view);
+        editImage = editImageAction(editImage, i, view);
+        return view;
+    }
 
 
 
+    public ImageView deleteImageAction(ImageView deleteImage, final int i, final View view) {
         deleteImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 AlertDialog.Builder mBuilder = new AlertDialog.Builder(view.getContext());
                 View mView = inflater.inflate(R.layout.dialog_killcontact,null);
+                final TextView mName = (TextView) mView.findViewById(R.id.textViewNombre);
+                final TextView mPhone = (TextView) mView.findViewById(R.id.textViewTelefono);
+                mName.setText(contactList[i][0]);
+                mPhone.setText(contactList[i][1]);
                 Button mButtonCancel = (Button) mView.findViewById(R.id.buttonCancel);
                 Button mButtonSave = (Button) mView.findViewById(R.id.buttonOk);
+                mBuilder.setView(mView);
+                final AlertDialog dialog = mBuilder.create();
                 mButtonSave.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
+                        // if true está por si existe validaciones futuras
                         if(true){
-                            Toast.makeText(v.getContext(),"Has matado al contacto, felicidades.",Toast.LENGTH_SHORT).show();
+                            Toast.makeText(v.getContext(),"Contacto eliminado correctamente",Toast.LENGTH_SHORT).show();
                         } else {
                             Toast.makeText(v.getContext(),"Se han guardado los cambios",Toast.LENGTH_SHORT).show();
                         }
                     }
                 });
-                mBuilder.setView(mView);
-                AlertDialog dialog = mBuilder.create();
+                mButtonCancel.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        dialog.hide();
+                    }
+                });
                 dialog.show();
-
             }
         });
+        return deleteImage;
+    }
 
 
 
+    public ImageView editImageAction(ImageView editImage, final int i, final View view) {
         editImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 AlertDialog.Builder mBuilder = new AlertDialog.Builder(view.getContext());
                 View mView = inflater.inflate(R.layout.dialog_addcontact,null);
                 final EditText mName = (EditText) mView.findViewById(R.id.editTextNombre);
                 final EditText mPhone = (EditText) mView.findViewById(R.id.editTextTelefono);
                 Button mButtonCancel = (Button) mView.findViewById(R.id.buttonCancel);
                 Button mButtonSave = (Button) mView.findViewById(R.id.buttonOk);
+                mName.setText(contactList[i][0]);
+                mPhone.setText(contactList[i][1]);
+                mBuilder.setView(mView);
+                final AlertDialog dialog = mBuilder.create();
                 mButtonSave.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -97,22 +117,19 @@ public class listAdapter extends BaseAdapter {
                         }
                     }
                 });
-                mBuilder.setView(mView);
-                AlertDialog dialog = mBuilder.create();
+                mButtonCancel.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        dialog.hide();
+                    }
+                });
                 dialog.show();
-
-
             }
         });
+        return editImage;
 
-        return view;
+
     }
-
-
-
-
-
-
     @Override
     public int getCount() {
         return contactList.length;
