@@ -71,6 +71,8 @@ public class WhiteListFragment extends Fragment {
                 final EditText mPhone = (EditText) mView.findViewById(R.id.editTextTelefono);
                 Button mButtonCancel = (Button) mView.findViewById(R.id.buttonCancel);
                 Button mButtonSave = (Button) mView.findViewById(R.id.buttonOk);
+                mBuilder.setView(mView);
+                final AlertDialog dialog = mBuilder.create();
                 mButtonSave.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -81,8 +83,12 @@ public class WhiteListFragment extends Fragment {
                         }
                     }
                 });
-                mBuilder.setView(mView);
-                AlertDialog dialog = mBuilder.create();
+                mButtonCancel.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        dialog.hide();
+                    }
+                });
                 dialog.show();
             }
         });
