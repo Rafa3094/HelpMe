@@ -1,6 +1,7 @@
 package com.helpme.Fragments;
 
 
+
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
@@ -12,8 +13,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 import android.widget.ListView;
-//import java.util.ArrayList;
-
+import java.util.ArrayList;
+import com.helpme.ContactsDbManager;
 import com.helpme.R;
 
 /**
@@ -22,18 +23,18 @@ import com.helpme.R;
 public class WhiteListFragment extends Fragment {
 
 
-    //ArrayList<contact> contactList = new ArrayList();
+    ContactsDbManager manager = new ContactsDbManager();
     View view;
     ListView list;
-    String[][]  contactList = {
+    /*String[][]  contactList = {
             {"Angela", "89654712"},
             {"Tony","61457856"},
             {"Michael","75412569"}
-    };
+    };*/
 
 
     public WhiteListFragment() {
-        // Required empty public constructor
+
     }
 
 
@@ -48,7 +49,7 @@ public class WhiteListFragment extends Fragment {
 
         list = view.findViewById(R.id.contactListView);
 
-        list.setAdapter(new listAdapter(this.getContext(),contactList));
+        list.setAdapter(new listAdapter(this.getContext(),manager.getContactsList()));
 
         return view;
     }
@@ -94,6 +95,7 @@ public class WhiteListFragment extends Fragment {
         });
         return v;
     }
+
 
 
 }

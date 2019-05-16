@@ -13,8 +13,10 @@ import android.widget.ImageView;
 import android.widget.ListAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
-
+import com.helpme.Entities.User;
 import com.helpme.R;
+
+import java.util.ArrayList;
 
 public class listAdapter extends BaseAdapter {
 
@@ -22,11 +24,11 @@ public class listAdapter extends BaseAdapter {
     private static LayoutInflater inflater = null;
 
     Context contexto;
-    String[][] contactList;
+    ArrayList<User> contactsList;
 
-    public listAdapter(Context contexto, String[][] contactList) {
+    public listAdapter(Context contexto, ArrayList<User> contactsList) {
         this.contexto = contexto;
-        this.contactList = contactList;
+        this.contactsList = contactsList;
 
         inflater = (LayoutInflater)contexto.getSystemService(contexto.LAYOUT_INFLATER_SERVICE);
     }
@@ -41,8 +43,11 @@ public class listAdapter extends BaseAdapter {
         TextView phone = (TextView) view.findViewById(R.id.textView5);
         ImageView editImage = (ImageView) view.findViewById(R.id.imageView3);
         ImageView deleteImage = (ImageView) view.findViewById(R.id.imageView2);
-        name.setText(contactList[i][0]);
-        phone.setText(contactList[i][1]);
+
+        name.setText(contactsList.get(i).getName());
+        phone.setText(contactsList.get(i).getPhoneNumber());
+        //name.setText(contactList[i][0]);
+        //phone.setText(contactList[i][1]);
         editImage.setImageResource(R.drawable.edit);
         deleteImage.setImageResource(R.drawable.delete);
         editImage.setTag(i);
@@ -62,8 +67,10 @@ public class listAdapter extends BaseAdapter {
                 View mView = inflater.inflate(R.layout.dialog_killcontact,null);
                 final TextView mName = (TextView) mView.findViewById(R.id.textViewNombre);
                 final TextView mPhone = (TextView) mView.findViewById(R.id.textViewTelefono);
-                mName.setText(contactList[i][0]);
-                mPhone.setText(contactList[i][1]);
+                mName.setText(contactsList.get(i).getName());
+                mPhone.setText(contactsList.get(i).getPhoneNumber());
+                //mName.setText(contactList[i][0]);
+                //mPhone.setText(contactList[i][1]);
                 Button mButtonCancel = (Button) mView.findViewById(R.id.buttonCancel);
                 Button mButtonSave = (Button) mView.findViewById(R.id.buttonOk);
                 mBuilder.setView(mView);
@@ -103,8 +110,10 @@ public class listAdapter extends BaseAdapter {
                 final EditText mPhone = (EditText) mView.findViewById(R.id.editTextTelefono);
                 Button mButtonCancel = (Button) mView.findViewById(R.id.buttonCancel);
                 Button mButtonSave = (Button) mView.findViewById(R.id.buttonOk);
-                mName.setText(contactList[i][0]);
-                mPhone.setText(contactList[i][1]);
+                mName.setText(contactsList.get(i).getName());
+                mPhone.setText(contactsList.get(i).getPhoneNumber());
+                //mName.setText(contactList[i][0]);
+                //mPhone.setText(contactList[i][1]);
                 mBuilder.setView(mView);
                 final AlertDialog dialog = mBuilder.create();
                 mButtonSave.setOnClickListener(new View.OnClickListener() {
@@ -132,7 +141,7 @@ public class listAdapter extends BaseAdapter {
     }
     @Override
     public int getCount() {
-        return contactList.length;
+        return contactsList.size();
     }
 
     @Override
