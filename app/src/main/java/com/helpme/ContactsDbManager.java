@@ -1,8 +1,6 @@
 package com.helpme;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
-
-import com.helpme.Entities.User;
 import java.util.ArrayList;
 
 
@@ -10,7 +8,7 @@ public class ContactsDbManager {
 
 
     private SQLiteDatabase dataBase;
-    ArrayList<User> contactsList;
+    ArrayList<Contact> contactsList;
     Context con;
 
     public ContactsDbManager() {
@@ -20,8 +18,8 @@ public class ContactsDbManager {
 
 
 
-    public ArrayList<User> getContactsList() {
-        ArrayList<User> contactsList = new ArrayList();
+    public ArrayList<Contact> getContactsList() {
+        ArrayList<Contact> contactsList = new ArrayList();
 
         return contactsList;
     }

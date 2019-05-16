@@ -13,6 +13,8 @@ import android.widget.ImageView;
 import android.widget.ListAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.helpme.Contact;
 import com.helpme.Entities.User;
 import com.helpme.R;
 
@@ -24,9 +26,9 @@ public class listAdapter extends BaseAdapter {
     private static LayoutInflater inflater = null;
 
     Context contexto;
-    ArrayList<User> contactsList;
+    ArrayList<Contact> contactsList;
 
-    public listAdapter(Context contexto, ArrayList<User> contactsList) {
+    public listAdapter(Context contexto, ArrayList<Contact> contactsList) {
         this.contexto = contexto;
         this.contactsList = contactsList;
 
