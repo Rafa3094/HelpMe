@@ -1,7 +1,8 @@
 package com.helpme.Fragments;
 
-
-
+import android.content.ContentValues;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
@@ -13,9 +14,10 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 import android.widget.ListView;
-import java.util.ArrayList;
-import com.helpme.ContactsDbManager;
+import com.helpme.ConnectionSQLiteHelper;
+import com.helpme.Contact;
 import com.helpme.R;
+import java.util.ArrayList;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -23,18 +25,10 @@ import com.helpme.R;
 public class WhiteListFragment extends Fragment {
 
 
-    ContactsDbManager manager = new ContactsDbManager();
     View view;
     ListView list;
-    /*String[][]  contactList = {
-            {"Angela", "89654712"},
-            {"Tony","61457856"},
-            {"Michael","75412569"}
-    };*/
-
 
     public WhiteListFragment() {
-
     }
 
 
@@ -49,7 +43,7 @@ public class WhiteListFragment extends Fragment {
 
         list = view.findViewById(R.id.contactListView);
 
-        list.setAdapter(new listAdapter(this.getContext(),manager.getContactsList()));
+        list.setAdapter(new listAdapter(this.getContext(),getContactsList()));
 
         return view;
     }
@@ -62,6 +56,7 @@ public class WhiteListFragment extends Fragment {
     private View callAddContact(View v){
 
         Button mShowDialog = (Button) v.findViewById(R.id.btnAddContact);
+
 
         mShowDialog.setOnClickListener(new View.OnClickListener(){
             @Override
@@ -80,6 +75,10 @@ public class WhiteListFragment extends Fragment {
                         if(mName.getText().toString().isEmpty() || mPhone.getText().toString().isEmpty()){
                             Toast.makeText(v.getContext(),"No puede dejar espacios vacíos",Toast.LENGTH_SHORT).show();
                         } else {
+                            Contact cont = new Contact(mName.getText().toString(), mPhone.getText().toString());
+                            addContact(cont);
+                            list.setAdapter(new listAdapter(v.getContext(),getContactsList()));
+                            dialog.dismiss();
                             Toast.makeText(v.getContext(),"Se han guardado los cambios",Toast.LENGTH_SHORT).show();
                         }
                     }
@@ -95,6 +94,64 @@ public class WhiteListFragment extends Fragment {
         });
         return v;
     }
+
+
+
+    public void addContact (Contact c) {
+        ConnectionSQLiteHelper connectionSQLiteHelper = new ConnectionSQLiteHelper(this.getContext(), "HelpMe", null, 1);
+        SQLiteDatabase db = connectionSQLiteHelper.getWritableDatabase();
+        ContentValues content= new ContentValues();
+        content.put("name", c.getName());
+        content.put("phoneNumber", c.getPhoneNumber());
+        Long idResult = db.insert("contacts",null, content);
+    }
+
+    public ArrayList<Contact> getContactsList() {
+        ArrayList<Contact> contactsList = new ArrayList();
+        try {
+            ConnectionSQLiteHelper connectionSQLiteHelper = new ConnectionSQLiteHelper(this.getContext(), "HelpMe", null, 1);
+            SQLiteDatabase db = connectionSQLiteHelper.getReadableDatabase();
+            Cursor cursor = db.rawQuery("SELECT id, name, phoneNumber FROM contacts", null);
+            if (cursor != null || cursor.getCount() > 0) {
+                cursor.moveToFirst();
+                do {
+                    int id = cursor.getInt(0);
+                    String name = cursor.getString(1);
+                    String phone = cursor.getString(2);
+                    contactsList.add(new Contact(id, name, phone));
+                } while (cursor.moveToNext());
+            }
+        } catch(Exception e) {
+
+        }
+        return contactsList;
+    }
+
+    public Contact getContact(int id) {
+        Contact contact = new Contact();
+        ConnectionSQLiteHelper connectionSQLiteHelper = new ConnectionSQLiteHelper(this.getContext(), "HelpMe", null, 1);
+        SQLiteDatabase db = connectionSQLiteHelper.getReadableDatabase();
+        Cursor cursor = db.rawQuery("SELECT id, name, phoneNumber FROM contacts WHERE id = "+id, null);
+        if (cursor != null || cursor.getCount() > 0) {
+            cursor.moveToFirst();
+                int idCon =  cursor.getInt(0);
+                String name = cursor.getString(1);
+                String phone = cursor.getString(2);
+                contact = new Contact(idCon, name, phone);
+        }
+        return contact;
+    }
+
+    public void deleteContact(int id) {
+
+    }
+
+    public Contact editContact (Contact c) {
+
+        return c;
+    }
+
+
 
 
 

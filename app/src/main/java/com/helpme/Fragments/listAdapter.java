@@ -31,7 +31,6 @@ public class listAdapter extends BaseAdapter {
     public listAdapter(Context contexto, ArrayList<Contact> contactsList) {
         this.contexto = contexto;
         this.contactsList = contactsList;
-
         inflater = (LayoutInflater)contexto.getSystemService(contexto.LAYOUT_INFLATER_SERVICE);
     }
 
@@ -48,8 +47,6 @@ public class listAdapter extends BaseAdapter {
 
         name.setText(contactsList.get(i).getName());
         phone.setText(contactsList.get(i).getPhoneNumber());
-        //name.setText(contactList[i][0]);
-        //phone.setText(contactList[i][1]);
         editImage.setImageResource(R.drawable.edit);
         deleteImage.setImageResource(R.drawable.delete);
         editImage.setTag(i);
@@ -114,8 +111,6 @@ public class listAdapter extends BaseAdapter {
                 Button mButtonSave = (Button) mView.findViewById(R.id.buttonOk);
                 mName.setText(contactsList.get(i).getName());
                 mPhone.setText(contactsList.get(i).getPhoneNumber());
-                //mName.setText(contactList[i][0]);
-                //mPhone.setText(contactList[i][1]);
                 mBuilder.setView(mView);
                 final AlertDialog dialog = mBuilder.create();
                 mButtonSave.setOnClickListener(new View.OnClickListener() {
@@ -125,6 +120,7 @@ public class listAdapter extends BaseAdapter {
                             Toast.makeText(v.getContext(),"No puede dejar espacios vacíos",Toast.LENGTH_SHORT).show();
                         } else {
                             Toast.makeText(v.getContext(),"Se han guardado los cambios",Toast.LENGTH_SHORT).show();
+                            dialog.dismiss();
                         }
                     }
                 });
@@ -143,7 +139,13 @@ public class listAdapter extends BaseAdapter {
     }
     @Override
     public int getCount() {
-        return contactsList.size();
+        int e = 0;
+        try{
+            e = contactsList.size();
+        } catch(Exception ex) {
+
+        }
+        return e;
     }
 
     @Override
