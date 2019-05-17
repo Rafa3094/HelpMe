@@ -27,6 +27,7 @@ public class WhiteListFragment extends Fragment {
 
     View view;
     ListView list;
+    WhiteListFragment fragment = this;
 
     public WhiteListFragment() {
     }
@@ -43,7 +44,7 @@ public class WhiteListFragment extends Fragment {
 
         list = view.findViewById(R.id.contactListView);
 
-        list.setAdapter(new listAdapter(this.getContext(),getContactsList()));
+        list.setAdapter(new listAdapter(this.getContext(),getContactsList(), fragment));
 
         return view;
     }
@@ -54,10 +55,7 @@ public class WhiteListFragment extends Fragment {
      * Este metodo se usa para llamar a la ventana insertar/editar contacto, se usaria dentro del metodo del boton.
      */
     private View callAddContact(View v){
-
         Button mShowDialog = (Button) v.findViewById(R.id.btnAddContact);
-
-
         mShowDialog.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view){
@@ -77,7 +75,7 @@ public class WhiteListFragment extends Fragment {
                         } else {
                             Contact cont = new Contact(mName.getText().toString(), mPhone.getText().toString());
                             addContact(cont);
-                            list.setAdapter(new listAdapter(v.getContext(),getContactsList()));
+                            list.setAdapter(new listAdapter(v.getContext(),getContactsList(), fragment));
                             dialog.dismiss();
                             Toast.makeText(v.getContext(),"Se han guardado los cambios",Toast.LENGTH_SHORT).show();
                         }
@@ -142,17 +140,21 @@ public class WhiteListFragment extends Fragment {
         return contact;
     }
 
+    public void editContact (Contact c) {
+        ConnectionSQLiteHelper connectionSQLiteHelper = new ConnectionSQLiteHelper(this.getContext(), "HelpMe", null, 1);
+        SQLiteDatabase db = connectionSQLiteHelper.getWritableDatabase();
+        ContentValues content= new ContentValues();
+        content.put("name", c.getName());
+        content.put("phoneNumber", c.getPhoneNumber());
+        db.update("contacts", content, "id="+c.getId(), null);
+        list.setAdapter(new listAdapter(this.getContext(),getContactsList(), fragment));
+    }
+
     public void deleteContact(int id) {
-
+        ConnectionSQLiteHelper connectionSQLiteHelper = new ConnectionSQLiteHelper(this.getContext(), "HelpMe", null, 1);
+        SQLiteDatabase db = connectionSQLiteHelper.getWritableDatabase();
+        db.delete("contacts", "id="+id, null);
+        list.setAdapter(new listAdapter(this.getContext(),getContactsList(), fragment));
     }
-
-    public Contact editContact (Contact c) {
-
-        return c;
-    }
-
-
-
-
 
 }

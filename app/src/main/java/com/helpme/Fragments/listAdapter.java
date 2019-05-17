@@ -1,7 +1,6 @@
 package com.helpme.Fragments;
 
 import android.content.Context;
-import android.content.Intent;
 import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,14 +9,10 @@ import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.ListAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.helpme.Contact;
-import com.helpme.Entities.User;
 import com.helpme.R;
-
 import java.util.ArrayList;
 
 public class listAdapter extends BaseAdapter {
@@ -27,10 +22,12 @@ public class listAdapter extends BaseAdapter {
 
     Context contexto;
     ArrayList<Contact> contactsList;
+    WhiteListFragment fragment;
 
-    public listAdapter(Context contexto, ArrayList<Contact> contactsList) {
+    public listAdapter(Context contexto, ArrayList<Contact> contactsList, WhiteListFragment fragment) {
         this.contexto = contexto;
         this.contactsList = contactsList;
+        this.fragment = fragment;
         inflater = (LayoutInflater)contexto.getSystemService(contexto.LAYOUT_INFLATER_SERVICE);
     }
 
@@ -62,14 +59,13 @@ public class listAdapter extends BaseAdapter {
         deleteImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                AlertDialog.Builder mBuilder = new AlertDialog.Builder(view.getContext());
+                final int index = Integer.parseInt(v.getTag().toString());
+                AlertDialog.Builder mBuilder = new AlertDialog.Builder(v.getContext());
                 View mView = inflater.inflate(R.layout.dialog_killcontact,null);
                 final TextView mName = (TextView) mView.findViewById(R.id.textViewNombre);
                 final TextView mPhone = (TextView) mView.findViewById(R.id.textViewTelefono);
-                mName.setText(contactsList.get(i).getName());
-                mPhone.setText(contactsList.get(i).getPhoneNumber());
-                //mName.setText(contactList[i][0]);
-                //mPhone.setText(contactList[i][1]);
+                mName.setText(contactsList.get(index).getName());
+                mPhone.setText(contactsList.get(index).getPhoneNumber());
                 Button mButtonCancel = (Button) mView.findViewById(R.id.buttonCancel);
                 Button mButtonSave = (Button) mView.findViewById(R.id.buttonOk);
                 mBuilder.setView(mView);
@@ -77,12 +73,9 @@ public class listAdapter extends BaseAdapter {
                 mButtonSave.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        // if true está por si existe validaciones futuras
-                        if(true){
+                            fragment.deleteContact(contactsList.get(index).getId());
                             Toast.makeText(v.getContext(),"Contacto eliminado correctamente",Toast.LENGTH_SHORT).show();
-                        } else {
-                            Toast.makeText(v.getContext(),"Se han guardado los cambios",Toast.LENGTH_SHORT).show();
-                        }
+                            dialog.dismiss();
                     }
                 });
                 mButtonCancel.setOnClickListener(new View.OnClickListener() {
@@ -103,14 +96,15 @@ public class listAdapter extends BaseAdapter {
         editImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                AlertDialog.Builder mBuilder = new AlertDialog.Builder(view.getContext());
+                final int index = Integer.parseInt(v.getTag().toString());
+                AlertDialog.Builder mBuilder = new AlertDialog.Builder(v.getContext());
                 View mView = inflater.inflate(R.layout.dialog_addcontact,null);
                 final EditText mName = (EditText) mView.findViewById(R.id.editTextNombre);
                 final EditText mPhone = (EditText) mView.findViewById(R.id.editTextTelefono);
                 Button mButtonCancel = (Button) mView.findViewById(R.id.buttonCancel);
                 Button mButtonSave = (Button) mView.findViewById(R.id.buttonOk);
-                mName.setText(contactsList.get(i).getName());
-                mPhone.setText(contactsList.get(i).getPhoneNumber());
+                mName.setText(contactsList.get(index).getName());
+                mPhone.setText(contactsList.get(index).getPhoneNumber());
                 mBuilder.setView(mView);
                 final AlertDialog dialog = mBuilder.create();
                 mButtonSave.setOnClickListener(new View.OnClickListener() {
@@ -119,6 +113,8 @@ public class listAdapter extends BaseAdapter {
                         if(mName.getText().toString().isEmpty() || mPhone.getText().toString().isEmpty()){
                             Toast.makeText(v.getContext(),"No puede dejar espacios vacíos",Toast.LENGTH_SHORT).show();
                         } else {
+                            Contact contact = new Contact(contactsList.get(index).getId() ,mName.getText().toString(), mPhone.getText().toString());
+                            fragment.editContact(contact);
                             Toast.makeText(v.getContext(),"Se han guardado los cambios",Toast.LENGTH_SHORT).show();
                             dialog.dismiss();
                         }
