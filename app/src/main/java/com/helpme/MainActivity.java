@@ -12,14 +12,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.Button;
-
-import com.helpme.Fragments.HomeFragment;
-import com.helpme.Fragments.InstitutionsFragment;
-import com.helpme.Fragments.UserInfoFragment;
-import com.helpme.Fragments.WhiteListFragment;
-
 import com.helpme.Fragments.HomeFragment;
 import com.helpme.Fragments.InstitutionsFragment;
 import com.helpme.Fragments.UserInfoFragment;
@@ -44,6 +36,7 @@ public class MainActivity extends AppCompatActivity
         NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
     }
+
 
     @Override
     public void onBackPressed() {
@@ -85,10 +78,6 @@ public class MainActivity extends AppCompatActivity
 
         if (id == R.id.nav_home) {
             loadFragment(new HomeFragment());
-
-        } else if (id == R.id.nav_whiteList) {
-            loadFragment(new WhiteListFragment());
-
 
         } else if (id == R.id.nav_whiteList) {
             loadFragment(new WhiteListFragment());
