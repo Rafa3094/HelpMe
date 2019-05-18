@@ -1,5 +1,7 @@
 package com.helpme;
 
+import android.content.ContentValues;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
@@ -14,6 +16,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
 import com.helpme.Fragments.HomeFragment;
 import com.helpme.Fragments.InstitutionsFragment;
@@ -32,8 +35,6 @@ public class MainActivity extends AppCompatActivity
         setSupportActionBar(toolbar);
 
         /*setupSetMessage();*/
-
-        ConnectionSQLiteHelper connection = new ConnectionSQLiteHelper(this, "HelpMe Database", null, 1);
 
         /*FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
