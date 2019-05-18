@@ -19,12 +19,12 @@
     <string name="add_contact" />
     <string name="white_list_fragment">WHITE LIST FRAGMENT</string>
     <string name="add_contact2">Add contact</string>
-    <string name="Guardar">Guardar</string>
-    <string name="Cancelar">Cancelar</string>
-    <string name="Telefono">Teléfono</string>
-    <string name="Nombre">Nombre</string>
-    <string name="DatosContacto">Datos de contacto</string>
-    <string name="NombreContactoEliminar">NombreContactoEliminar</string>
-    <string name="eliminar">Eliminar</string>
-    <string name="telefonoeliminar">TelefonoEliminar</string>
+    <string name="Guardar">Save</string>
+    <string name="Cancelar">Cancel</string>
+    <string name="Telefono">Phone</string>
+    <string name="Nombre">Name</string>
+    <string name="DatosContacto">Contact information</string>
+    <string name="NombreContactoEliminar">NameContactToDelete</string>
+    <string name="eliminar">Delete</string>
+    <string name="telefonoeliminar">PhoneToDelete</string>
 </resources>
