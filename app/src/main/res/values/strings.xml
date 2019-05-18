@@ -10,4 +10,21 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="institutions_fragment">INSTITUTIONS FRAGMENT</string>
+    <string name="nombre_de_contacto" />
+    <string name="name" />
+    <string name="tel_fono_de_contacto" />
+    <string name="cancelar" />
+    <string name="guardar" />
+    <string name="datos_de_contacto" />
+    <string name="add_contact" />
+    <string name="white_list_fragment">WHITE LIST FRAGMENT</string>
+    <string name="add_contact2">Add contact</string>
+    <string name="Guardar">Save</string>
+    <string name="Cancelar">Cancel</string>
+    <string name="Telefono">Phone</string>
+    <string name="Nombre">Name</string>
+    <string name="DatosContacto">Contact information</string>
+    <string name="NombreContactoEliminar">NameContactToDelete</string>
+    <string name="eliminar">Delete</string>
+    <string name="telefonoeliminar">PhoneToDelete</string>
 </resources>
