@@ -25,6 +25,7 @@ public class RequestPermissionActivity extends AppCompatActivity {
             ActivityCompat.requestPermissions(activity,new String[]{Manifest.permission.SEND_SMS},REQUEST_ACCESS_FINE);
         }
 
+
     }
 
     @Override

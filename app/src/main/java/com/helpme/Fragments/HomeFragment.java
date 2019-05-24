@@ -110,10 +110,13 @@ public class HomeFragment extends Fragment {
             //                                          int[] grantResults)
             // to handle the case where the user grants the permission. See the documentation
             // for ActivityCompat#requestPermissions for more details
-            if (checkSelfPermission(Objects.requireNonNull(this.getContext()), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && checkSelfPermission(this.getContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED && checkSelfPermission(this.getContext(), Manifest.permission.SEND_SMS) != PackageManager.PERMISSION_GRANTED){
-                Toast.makeText(getActivity(), "You have to accept the permissions", Toast.LENGTH_LONG).show();
 
-            return;}
+            if (checkSelfPermission(Objects.requireNonNull(this.getContext()), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && checkSelfPermission(this.getContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED && checkSelfPermission(this.getContext(), Manifest.permission.SEND_SMS) != PackageManager.PERMISSION_GRANTED){
+
+               Toast.makeText(getActivity(), "You have to accept the permissions first", Toast.LENGTH_LONG).show();
+
+            return;
+        }
 
             Location lastKnownLocation = locMgr.getLastKnownLocation(locProvider);
             lat = lastKnownLocation.getLatitude();
@@ -127,10 +130,10 @@ public class HomeFragment extends Fragment {
             minDistance = 1;
 
             String googleUrl = "https://maps.google.com/?q=" + lat + "," + lng;
-            message = "I need your help" + " Please open this link" + googleUrl + " to know my position";
+            message = "I need your help" + " Please open this link " + googleUrl + " to know my position";
         }
-        Toast.makeText(getActivity().getApplicationContext(), message,
-                Toast.LENGTH_LONG).show();
+        /*Toast.makeText(getActivity().getApplicationContext(), message,
+                Toast.LENGTH_LONG).show();*/
         sendSMS(name,phone,message);
     }
 
