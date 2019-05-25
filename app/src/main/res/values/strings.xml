@@ -27,4 +27,11 @@
     <string name="NombreContactoEliminar">NameContactToDelete</string>
     <string name="eliminar">Delete</string>
     <string name="telefonoeliminar">PhoneToDelete</string>
+    <string name="myName">Name</string>
+    <string name="myLastName">Last Name</string>
+    <string name="myID">ID</string>
+    <string name="myBirthdate">Birth date</string>
+    <string name="myBloodType">Blood Type</string>
+    <string name="mySufferings">Sufferings</string>
+    <string name="editButton">Update Information</string>
 </resources>

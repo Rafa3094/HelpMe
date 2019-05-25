@@ -74,7 +74,7 @@ public class listAdapter extends BaseAdapter {
                     @Override
                     public void onClick(View v) {
                             fragment.deleteContact(contactsList.get(index).getId());
-                            Toast.makeText(v.getContext(),"Contacto eliminado correctamente",Toast.LENGTH_SHORT).show();
+                            Toast.makeText(v.getContext(),"Contact properly removed",Toast.LENGTH_SHORT).show();
                             dialog.dismiss();
                     }
                 });
@@ -111,11 +111,11 @@ public class listAdapter extends BaseAdapter {
                     @Override
                     public void onClick(View v) {
                         if(mName.getText().toString().isEmpty() || mPhone.getText().toString().isEmpty()){
-                            Toast.makeText(v.getContext(),"No puede dejar espacios vacíos",Toast.LENGTH_SHORT).show();
+                            Toast.makeText(v.getContext(),"can not leave empty spaces",Toast.LENGTH_SHORT).show();
                         } else {
                             Contact contact = new Contact(contactsList.get(index).getId() ,mName.getText().toString(), mPhone.getText().toString());
                             fragment.editContact(contact);
-                            Toast.makeText(v.getContext(),"Se han guardado los cambios",Toast.LENGTH_SHORT).show();
+                            Toast.makeText(v.getContext(),"The changes have been saved",Toast.LENGTH_SHORT).show();
                             dialog.dismiss();
                         }
                     }
