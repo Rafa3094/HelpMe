@@ -9,10 +9,10 @@
 <!--Permisos para para la aplicacion helpme-->
     <uses-permission android:name="android.permission.SEND_SMS" />
     <uses-permission android:name="android.permission.CALL_PHONE" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" /> <!--Se utiliza para la localización del GPS-->
     <uses-permission android:name="android.permission.RECEIVE_SMS"/>
-
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
 <!--*****************************************-->
 

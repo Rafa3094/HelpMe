@@ -34,4 +34,5 @@
     <string name="myBloodType">Blood Type</string>
     <string name="mySufferings">Sufferings</string>
     <string name="editButton">Update Information</string>
+    <string name="this_is_the_emergency_list">This is the emergency list</string>
 </resources>
