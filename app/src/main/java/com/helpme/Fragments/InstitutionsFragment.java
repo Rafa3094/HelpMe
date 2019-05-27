@@ -68,11 +68,12 @@ public class InstitutionsFragment extends Fragment {
 
     private EmergencyNumber[] getArrayOfArrayList(){
         EmergencyNumber[] stringArray = {
-                new EmergencyNumber("Emergency to Allan",888763595),
+                new EmergencyNumber("Call Emergency",911)
+                /*new EmergencyNumber("Emergency to Allan",888763595),
                 new EmergencyNumber("Emergency to Estiven",89693541),
                 new EmergencyNumber("Emergency to Kevin", 61516547),
                 new EmergencyNumber("Emergency to Rafa", 89040990),
-                new EmergencyNumber("Emergency to Sean", 87755608)
+                new EmergencyNumber("Emergency to Sean", 87755608)*/
         };
         return stringArray;
     }
