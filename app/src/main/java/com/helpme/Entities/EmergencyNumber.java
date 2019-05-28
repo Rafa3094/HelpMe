@@ -3,12 +3,12 @@ package com.helpme.Entities;
 public class EmergencyNumber {
 
     private String name;
-    private int phone;
+    private String phone;
 
     public EmergencyNumber() {
     }
 
-    public EmergencyNumber(String name, int phone) {
+    public EmergencyNumber(String name, String phone) {
         this.name = name;
         this.phone = phone;
     }
@@ -17,7 +17,7 @@ public class EmergencyNumber {
         return name;
     }
 
-    public int getPhone() {
+    public String getPhone() {
         return phone;
     }
 
@@ -25,7 +25,7 @@ public class EmergencyNumber {
         this.name = name;
     }
 
-    public void setPhone(int phone) {
+    public void setPhone(String phone) {
         this.phone = phone;
     }
 
