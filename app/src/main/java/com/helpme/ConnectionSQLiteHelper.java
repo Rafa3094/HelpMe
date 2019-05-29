@@ -12,6 +12,7 @@ public class ConnectionSQLiteHelper extends SQLiteOpenHelper {
 
 
     final String CREATE_CONTACT_TABLE="CREATE TABLE IF NOT EXISTS contacts(id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, phoneNumber TEXT)";
+    final String CREATE_EMERGENCY_NUMBERS_TABLE="CREATE TABLE IF NOT EXISTS numbers(id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, phoneNumber TEXT)";
     final String CREATE_USER_TABLE="CREATE TABLE IF NOT EXISTS user(id INTEGER PRIMARY KEY AUTOINCREMENT, personalId INTEGER, name TEXT, lastName TEXT, birthDate TEXT, sufferings TEXT, blood TEXT)";
 
     public ConnectionSQLiteHelper(Context context, String name, SQLiteDatabase.CursorFactory factory, int version) {
@@ -67,12 +68,14 @@ public class ConnectionSQLiteHelper extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
         db.execSQL(CREATE_CONTACT_TABLE);
         db.execSQL(CREATE_USER_TABLE);
+        db.execSQL(CREATE_EMERGENCY_NUMBERS_TABLE);
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         db.execSQL("DROP TABLE IF EXISTS user");
         db.execSQL("DROP TABLE IF EXISTS contacts");
+        db.execSQL("DROP TABLE IF EXISTS numbers");
         onCreate(db);
     }
 }
