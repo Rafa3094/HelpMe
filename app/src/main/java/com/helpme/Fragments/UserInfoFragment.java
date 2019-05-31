@@ -88,7 +88,7 @@ public class UserInfoFragment extends Fragment {
                 u = new User(id, personalId, name, lastName, birthDate, sufferings, bloodType);
             }
         } catch (Exception e) {
-            Toast.makeText(this.getContext(), "ERROR: " + e, Toast.LENGTH_SHORT).show();
+            //Toast.makeText(this.getContext(), "ERROR: " + e, Toast.LENGTH_SHORT).show();
         }
         return u;
     }
@@ -108,8 +108,6 @@ public class UserInfoFragment extends Fragment {
                 birthDate.setText(u.getBitrhDate());
                 bloodType.setText(u.getBlood());
                 sufferings.setText(u.getSufferings());
-            } else {
-                Toast.makeText(this.getContext(), "empty user data", Toast.LENGTH_SHORT).show();
             }
         } catch (Exception e) {
             Toast.makeText(this.getContext(), "ERROR: " + e, Toast.LENGTH_SHORT).show();
