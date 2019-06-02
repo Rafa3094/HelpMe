@@ -50,10 +50,6 @@ public class WhiteListFragment extends Fragment {
     }
 
 
-    /**
-     * Importante:
-     * Este metodo se usa para llamar a la ventana insertar/editar contacto, se usaria dentro del metodo del boton.
-     */
     private View callAddContact(View v){
         Button mShowDialog = (Button) v.findViewById(R.id.btnAddContact);
         mShowDialog.setOnClickListener(new View.OnClickListener(){
@@ -125,6 +121,7 @@ public class WhiteListFragment extends Fragment {
         return contactsList;
     }
 
+    //No usa actualmente
     public Contact getContact(int id) {
         Contact contact = new Contact();
         ConnectionSQLiteHelper connectionSQLiteHelper = new ConnectionSQLiteHelper(this.getContext(), "HelpMe", null, 1);

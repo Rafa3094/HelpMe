@@ -130,9 +130,8 @@ public class listAdapter extends BaseAdapter {
             }
         });
         return editImage;
-
-
     }
+
     @Override
     public int getCount() {
         int e = 0;
