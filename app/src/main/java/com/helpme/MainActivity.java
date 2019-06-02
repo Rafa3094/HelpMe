@@ -28,6 +28,7 @@ public class MainActivity extends AppCompatActivity
         startActivity(new Intent(MainActivity.this, TutoActivity.class));
 
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_main);
         loadFragment(new HomeFragment());
         Toolbar toolbar = findViewById(R.id.toolbar);

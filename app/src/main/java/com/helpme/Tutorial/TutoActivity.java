@@ -25,7 +25,6 @@ public class TutoActivity extends AppCompatActivity {
 
         tabindicator = findViewById(R.id.tabIndicator);
 
-
         List<ScreenItem> nList = new ArrayList<>();
         nList.add(new ScreenItem("HelpMe", "Welcome to the HelpMe app! \nKeep sliding to know how to use it!", R.drawable.button_pressed));
         nList.add(new ScreenItem("", "", R.drawable.slide1));
