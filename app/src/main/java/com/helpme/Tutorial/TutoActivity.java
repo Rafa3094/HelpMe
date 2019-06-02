@@ -26,14 +26,14 @@ public class TutoActivity extends AppCompatActivity {
         tabindicator = findViewById(R.id.tabIndicator);
 
         List<ScreenItem> nList = new ArrayList<>();
-        nList.add(new ScreenItem("HelpMe", "Welcome to the HelpMe app! \nKeep sliding to know how to use it!", R.drawable.button_pressed));
+        nList.add(new ScreenItem("HelpMe", "Welcome to the HelpMe app! \nKeep sliding to know how to use it!", R.drawable.empty));
         nList.add(new ScreenItem("", "", R.drawable.slide1));
         nList.add(new ScreenItem("", "", R.drawable.slide2));
         nList.add(new ScreenItem("", "", R.drawable.slide3));
         nList.add(new ScreenItem("", "", R.drawable.slide4));
         nList.add(new ScreenItem("", "", R.drawable.slide5));
         nList.add(new ScreenItem("", "", R.drawable.slide6));
-        nList.add(new ScreenItem("Congratulations!", "You just finished the user guide! \nGo ahead and take care!", R.drawable.button_pressed));
+        nList.add(new ScreenItem("Congratulations!", "You just finished the user guide! \nGo ahead and take care!", R.drawable.empty));
         screenpager = findViewById(R.id.screen_viewpager);
         introAdapter = new IntroViewPagerAdapter(this, nList);
         screenpager.setAdapter(introAdapter);
