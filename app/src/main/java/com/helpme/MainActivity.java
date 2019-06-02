@@ -1,5 +1,6 @@
 package com.helpme;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
@@ -16,12 +17,16 @@ import com.helpme.Fragments.HomeFragment;
 import com.helpme.Fragments.InstitutionsFragment;
 import com.helpme.Fragments.UserInfoFragment;
 import com.helpme.Fragments.WhiteListFragment;
+import com.helpme.Tutorial.TutoActivity;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+        startActivity(new Intent(MainActivity.this, TutoActivity.class));
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         loadFragment(new HomeFragment());

@@ -25,6 +25,7 @@ import android.widget.Toast;
 import com.helpme.ConnectionSQLiteHelper;
 import com.helpme.RequestPermissionActivity;
 import com.helpme.R;
+import com.helpme.User;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -93,50 +94,6 @@ public class HomeFragment extends Fragment {
 
     }
 
-    private void getLocation(String name, String phone) {
-        ConnectivityManager cm = (ConnectivityManager) Objects.requireNonNull(getActivity()).getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo ni = cm.getActiveNetworkInfo();
-        if (ni == null) {
-            message = "I need your help!\n" + "My GPS off, I can not send you my location\n";
-
-        } else {
-            locMgr = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
-            locProvider = LocationManager.NETWORK_PROVIDER;
-
-            //
-            //    ActivityCompat#requestPermissions
-            // here to request the missing permissions, and then overriding
-            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-            //                                          int[] grantResults)
-            // to handle the case where the user grants the permission. See the documentation
-            // for ActivityCompat#requestPermissions for more details
-
-            if (checkSelfPermission(Objects.requireNonNull(this.getContext()), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && checkSelfPermission(this.getContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED && checkSelfPermission(this.getContext(), Manifest.permission.SEND_SMS) != PackageManager.PERMISSION_GRANTED){
-
-               Toast.makeText(getActivity(), "You have to accept the permissions first", Toast.LENGTH_LONG).show();
-
-            return;
-        }
-
-            Location lastKnownLocation = locMgr.getLastKnownLocation(locProvider);
-            lat = lastKnownLocation.getLatitude();
-            lng = lastKnownLocation.getLongitude();
-
-            Criteria cr = new Criteria();
-            cr.setAccuracy(Criteria.ACCURACY_FINE);
-
-            locProvider = locMgr.getBestProvider(cr, false);
-            minTime = 60 * 1000;
-            minDistance = 1;
-
-            String googleUrl = "https://maps.google.com/?q=" + lat + "," + lng;
-            message = "I need your help" + " Please open this link " + googleUrl + " to know my position";
-        }
-        /*Toast.makeText(getActivity().getApplicationContext(), message,
-                Toast.LENGTH_LONG).show();*/
-        sendSMS(name,phone,message);
-    }
-
 
     private void sendSMS(String name, String phone, String message)
     {
@@ -153,4 +110,53 @@ public class HomeFragment extends Fragment {
             ex.printStackTrace();
         }
     }
+
+    private void getLocation(String name, String phone) {
+        ConnectivityManager cm = (ConnectivityManager) Objects.requireNonNull(getActivity()).getSystemService(Context.CONNECTIVITY_SERVICE);
+        ConnectionSQLiteHelper connectionSQLiteHelper = new ConnectionSQLiteHelper(this.getContext(), "HelpMe", null, 1);
+        NetworkInfo ni = cm.getActiveNetworkInfo();
+        User user = connectionSQLiteHelper.getUserData(getContext());
+
+        if (ni == null) {
+            message = user.getName() + " " + user.getLastName() + " needs your help!\n" + "My GPS off, I can not send you my location\n";
+
+        } else {
+            locMgr = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
+            locProvider = LocationManager.NETWORK_PROVIDER;
+
+            //
+            //    ActivityCompat#requestPermissions
+            // here to request the missing permissions, and then overriding
+            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+            //                                          int[] grantResults)
+            // to handle the case where the user grants the permission. See the documentation
+            // for ActivityCompat#requestPermissions for more details
+
+            if (checkSelfPermission(Objects.requireNonNull(this.getContext()), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && checkSelfPermission(this.getContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED && checkSelfPermission(this.getContext(), Manifest.permission.SEND_SMS) != PackageManager.PERMISSION_GRANTED){
+
+                Toast.makeText(getActivity(), "You have to accept the permissions first", Toast.LENGTH_LONG).show();
+
+                return;
+            }
+
+            Location lastKnownLocation = locMgr.getLastKnownLocation(locProvider);
+            lat = lastKnownLocation.getLatitude();
+            lng = lastKnownLocation.getLongitude();
+
+            Criteria cr = new Criteria();
+            cr.setAccuracy(Criteria.ACCURACY_FINE);
+
+            locProvider = locMgr.getBestProvider(cr, false);
+            minTime = 60 * 1000;
+            minDistance = 1;
+
+            String googleUrl = "https://maps.google.com/?q=" + lat + "," + lng;
+            message = user.getName() + " " + user.getLastName() + " needs your help" + " Please open this link " + googleUrl + " to know my position";
+        }
+        /*Toast.makeText(getActivity().getApplicationContext(), message,
+                Toast.LENGTH_LONG).show();*/
+        sendSMS(name,phone,message);
+    }
+
+
 }
