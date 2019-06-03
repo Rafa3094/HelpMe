@@ -1,12 +1,16 @@
 package com.helpme.Tutorial;
 
+import android.content.ContentValues;
+import android.database.sqlite.SQLiteDatabase;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
+import com.helpme.ConnectionSQLiteHelper;
 import com.helpme.R;
 
 import java.util.ArrayList;
@@ -48,6 +52,15 @@ public class TutoActivity extends AppCompatActivity {
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                try {
+                    ConnectionSQLiteHelper helper = new ConnectionSQLiteHelper(v.getContext(), "HelpMe", null, 1);
+                    SQLiteDatabase db = helper.getWritableDatabase();
+                    ContentValues content = new ContentValues();
+                    content.put("first", 50);
+                    Long idResult = db.insert("tutorial", null, content);
+                } catch (Exception e) {
+                    Toast.makeText(v.getContext(), "ERROR: " + e, Toast.LENGTH_LONG).show();
+                }
                 finish();
             }
         });
