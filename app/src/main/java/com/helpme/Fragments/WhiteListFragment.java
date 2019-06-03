@@ -50,10 +50,6 @@ public class WhiteListFragment extends Fragment {
     }
 
 
-    /**
-     * Importante:
-     * Este metodo se usa para llamar a la ventana insertar/editar contacto, se usaria dentro del metodo del boton.
-     */
     private View callAddContact(View v){
         Button mShowDialog = (Button) v.findViewById(R.id.btnAddContact);
         mShowDialog.setOnClickListener(new View.OnClickListener(){
@@ -71,13 +67,12 @@ public class WhiteListFragment extends Fragment {
                     @Override
                     public void onClick(View v) {
                         if(mName.getText().toString().isEmpty() || mPhone.getText().toString().isEmpty()){
-                            Toast.makeText(v.getContext(),"No puede dejar espacios vacíos",Toast.LENGTH_SHORT).show();
+                            Toast.makeText(v.getContext(),"can not leave empty spaces",Toast.LENGTH_SHORT).show();
                         } else {
                             Contact cont = new Contact(mName.getText().toString(), mPhone.getText().toString());
                             addContact(cont);
-                            list.setAdapter(new listAdapter(v.getContext(),getContactsList(), fragment));
                             dialog.dismiss();
-                            Toast.makeText(v.getContext(),"Se han guardado los cambios",Toast.LENGTH_SHORT).show();
+                            Toast.makeText(v.getContext(),"The changes have been saved",Toast.LENGTH_SHORT).show();
                         }
                     }
                 });
@@ -98,10 +93,11 @@ public class WhiteListFragment extends Fragment {
     public void addContact (Contact c) {
         ConnectionSQLiteHelper connectionSQLiteHelper = new ConnectionSQLiteHelper(this.getContext(), "HelpMe", null, 1);
         SQLiteDatabase db = connectionSQLiteHelper.getWritableDatabase();
-        ContentValues content= new ContentValues();
+        ContentValues content = new ContentValues();
         content.put("name", c.getName());
         content.put("phoneNumber", c.getPhoneNumber());
         Long idResult = db.insert("contacts",null, content);
+        list.setAdapter(new listAdapter(this.getContext(),getContactsList(), fragment));
     }
 
     public ArrayList<Contact> getContactsList() {
@@ -125,6 +121,7 @@ public class WhiteListFragment extends Fragment {
         return contactsList;
     }
 
+    //No usa actualmente
     public Contact getContact(int id) {
         Contact contact = new Contact();
         ConnectionSQLiteHelper connectionSQLiteHelper = new ConnectionSQLiteHelper(this.getContext(), "HelpMe", null, 1);

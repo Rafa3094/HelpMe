@@ -1,5 +1,6 @@
 package com.helpme;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
@@ -12,17 +13,27 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+
 import com.helpme.Fragments.HomeFragment;
 import com.helpme.Fragments.InstitutionsFragment;
 import com.helpme.Fragments.UserInfoFragment;
 import com.helpme.Fragments.WhiteListFragment;
+import com.helpme.Tutorial.TutoActivity;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+        ConnectionSQLiteHelper helper = new ConnectionSQLiteHelper(this, "HelpMe", null, 1);
+
+        if (helper.getTutorialConfirmation(this) == 100) {
+            startActivity(new Intent(MainActivity.this, TutoActivity.class));
+        }
+
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_main);
         loadFragment(new HomeFragment());
         Toolbar toolbar = findViewById(R.id.toolbar);
@@ -94,7 +105,7 @@ public class MainActivity extends AppCompatActivity
         return true;
     }
 
-    private void loadFragment(Fragment fragment){
+    private void loadFragment(Fragment fragment) {
         FragmentManager manager = getSupportFragmentManager();
         manager.beginTransaction().replace(R.id.fragment_container, fragment).commit();
     }
