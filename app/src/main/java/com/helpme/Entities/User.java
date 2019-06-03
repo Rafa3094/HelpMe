@@ -1,26 +1,51 @@
 package com.helpme.Entities;
 
-
 public class User {
 
-    private Integer id;
+    private int id;
+    private int personalId;
     private String name;
     private String lastName;
-    private String phoneNumber;
+    private String bitrhDate;
+    private String sufferings;
+    private String blood;
 
-    public User(Integer id, String name, String lastName, String phoneNumber) {
+    public User(int id, int personalId, String name, String lastName, String bitrhDate, String sufferings, String blood) {
         this.id = id;
+        this.personalId = personalId;
         this.name = name;
         this.lastName = lastName;
-        this.phoneNumber = phoneNumber;
+        this.bitrhDate = bitrhDate;
+        this.sufferings = sufferings;
+        this.blood = blood;
     }
 
-    public Integer getId() {
+    public User(int personalId, String name, String lastName, String bitrhDate, String sufferings, String blood) {
+        this.personalId = personalId;
+        this.name = name;
+        this.lastName = lastName;
+        this.bitrhDate = bitrhDate;
+        this.sufferings = sufferings;
+        this.blood = blood;
+    }
+
+    public User() {
+    }
+
+    public int getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(int id) {
         this.id = id;
+    }
+
+    public int getPersonalId() {
+        return personalId;
+    }
+
+    public void setPersonalId(int personalId) {
+        this.personalId = personalId;
     }
 
     public String getName() {
@@ -39,49 +64,27 @@ public class User {
         this.lastName = lastName;
     }
 
-    public String getPhoneNumber() {
-        return phoneNumber;
+    public String getBitrhDate() {
+        return bitrhDate;
     }
 
-    public void setPhoneNumber(String phoneNumber) {
-        this.phoneNumber = phoneNumber;
+    public void setBitrhDate(String bitrhDate) {
+        this.bitrhDate = bitrhDate;
     }
 
-    public static class contact {
+    public String getSufferings() {
+        return sufferings;
+    }
 
-        public String name;
-        public  String phoneNumber;
-        public int id;
+    public void setSufferings(String sufferings) {
+        this.sufferings = sufferings;
+    }
 
-        public contact(String name, String phoneNumber, int id) {
-            this.name = name;
-            this.phoneNumber = phoneNumber;
-            this.id = id;
-        }
+    public String getBlood() {
+        return blood;
+    }
 
-
-        public String getName() {
-            return name;
-        }
-
-        public void setName(String name) {
-            this.name = name;
-        }
-
-        public String getPhoneNumber() {
-            return phoneNumber;
-        }
-
-        public void setPhoneNumber(String phoneNumber) {
-            this.phoneNumber = phoneNumber;
-        }
-
-        public int getId() {
-            return id;
-        }
-
-        public void setId(int id) {
-            this.id = id;
-        }
+    public void setBlood(String blood) {
+        this.blood = blood;
     }
 }

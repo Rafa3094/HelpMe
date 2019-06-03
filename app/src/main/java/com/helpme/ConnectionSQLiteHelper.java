@@ -5,16 +5,17 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.widget.Toast;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 
 public class ConnectionSQLiteHelper extends SQLiteOpenHelper {
 
 
-    final String CREATE_CONTACT_TABLE="CREATE TABLE IF NOT EXISTS contacts(id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, phoneNumber TEXT)";
-    final String CREATE_EMERGENCY_NUMBERS_TABLE="CREATE TABLE IF NOT EXISTS numbers(id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, phoneNumber TEXT)";
-    final String CREATE_USER_TABLE="CREATE TABLE IF NOT EXISTS user(id INTEGER PRIMARY KEY AUTOINCREMENT, personalId INTEGER, name TEXT, lastName TEXT, birthDate TEXT, sufferings TEXT, blood TEXT)";
-    final String CREATE_TUTORIAL_TABLE="CREATE TABLE IF NOT EXISTS tutorial(id INTEGER PRIMARY KEY AUTOINCREMENT, first INTEGER)";
+    final String CREATE_CONTACT_TABLE = "CREATE TABLE IF NOT EXISTS contacts(id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, phoneNumber TEXT)";
+    final String CREATE_EMERGENCY_NUMBERS_TABLE = "CREATE TABLE IF NOT EXISTS numbers(id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, phoneNumber TEXT)";
+    final String CREATE_USER_TABLE = "CREATE TABLE IF NOT EXISTS user(id INTEGER PRIMARY KEY AUTOINCREMENT, personalId INTEGER, name TEXT, lastName TEXT, birthDate TEXT, sufferings TEXT, blood TEXT)";
+    final String CREATE_TUTORIAL_TABLE = "CREATE TABLE IF NOT EXISTS tutorial(id INTEGER PRIMARY KEY AUTOINCREMENT, first INTEGER)";
 
     public ConnectionSQLiteHelper(Context context, String name, SQLiteDatabase.CursorFactory factory, int version) {
         super(context, name, factory, version);
@@ -37,18 +38,18 @@ public class ConnectionSQLiteHelper extends SQLiteOpenHelper {
                 } while (cursor.moveToNext());
             }
             return contactList;
-        }catch (Exception e){
-            Toast.makeText(context,"ERROR: " + e, Toast.LENGTH_LONG).show();
+        } catch (Exception e) {
+            Toast.makeText(context, "ERROR: " + e, Toast.LENGTH_LONG).show();
             return null;
         }
     }
 
     public User getUserData(Context context) {
-        User u = new User();
+        User u = new User(0,0,"","","","","");
         try {
             SQLiteDatabase db = this.getReadableDatabase();
             Cursor cursor = db.rawQuery("SELECT * FROM user", null);
-            if (cursor != null || cursor.getCount() > 0) {
+            if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 int id = cursor.getInt(0);
                 int personalId = cursor.getInt(1);
@@ -60,7 +61,7 @@ public class ConnectionSQLiteHelper extends SQLiteOpenHelper {
                 u = new User(id, personalId, name, lastName, birthDate, sufferings, bloodType);
             }
         } catch (Exception e) {
-            Toast.makeText(context,"ERROR: " + e, Toast.LENGTH_LONG).show();
+            Toast.makeText(context, "ERROR: " + e, Toast.LENGTH_LONG).show();
         }
         return u;
     }
@@ -77,7 +78,7 @@ public class ConnectionSQLiteHelper extends SQLiteOpenHelper {
                 confirmation = cursor.getInt(1);
             }
         } catch (Exception e) {
-            Toast.makeText(context,"ERROR: " + e, Toast.LENGTH_LONG).show();
+            Toast.makeText(context, "ERROR: " + e, Toast.LENGTH_LONG).show();
         }
         return confirmation;
     }
