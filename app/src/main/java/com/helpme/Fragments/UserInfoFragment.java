@@ -57,13 +57,13 @@ public class UserInfoFragment extends Fragment {
                 //Toast.makeText(v.getContext(), "ajá", Toast.LENGTH_SHORT).show();
                 if (name.getText().toString().isEmpty() || lastName.getText().toString().isEmpty() || personalId.getText().toString().isEmpty()
                         || birthDate.getText().toString().isEmpty() || bloodType.getText().toString().isEmpty() || sufferings.getText().toString().isEmpty()) {
-                            Toast.makeText(v.getContext(), "can not leave empty spaces", Toast.LENGTH_SHORT).show();
-                        } else {
-                            //llamar al metodo de crear o actualizar
-                            User us = new User(Integer.parseInt(personalId.getText().toString()),name.getText().toString(),lastName.getText().toString(),birthDate.getText().toString(),sufferings.getText().toString(),bloodType.getText().toString());
-                            saveUserInfo(us);
-                            Toast.makeText(v.getContext(), "The changes have been saved", Toast.LENGTH_SHORT).show();
-                        }
+                    Toast.makeText(v.getContext(), "can not leave empty spaces", Toast.LENGTH_SHORT).show();
+                } else {
+                    //llamar al metodo de crear o actualizar
+                    User us = new User(personalId.getText().toString(), name.getText().toString(), lastName.getText().toString(), birthDate.getText().toString(), sufferings.getText().toString(), bloodType.getText().toString());
+                    saveUserInfo(us);
+                    Toast.makeText(v.getContext(), "The changes have been saved", Toast.LENGTH_SHORT).show();
+                }
             }
         });
         return v;
@@ -76,10 +76,10 @@ public class UserInfoFragment extends Fragment {
             ConnectionSQLiteHelper connectionSQLiteHelper = new ConnectionSQLiteHelper(this.getContext(), "HelpMe", null, 1);
             SQLiteDatabase db = connectionSQLiteHelper.getReadableDatabase();
             Cursor cursor = db.rawQuery("SELECT * FROM user", null);
-            if (cursor != null || cursor.getCount() > 0) {
+            if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 int id = cursor.getInt(0);
-                int personalId = cursor.getInt(1);
+                String personalId = cursor.getString(1);
                 String name = cursor.getString(2);
                 String lastName = cursor.getString(3);
                 String birthDate = cursor.getString(4);
@@ -88,7 +88,7 @@ public class UserInfoFragment extends Fragment {
                 u = new User(id, personalId, name, lastName, birthDate, sufferings, bloodType);
             }
         } catch (Exception e) {
-            //Toast.makeText(this.getContext(), "ERROR: " + e, Toast.LENGTH_SHORT).show();
+            Toast.makeText(this.getContext(), "ERROR: " + e, Toast.LENGTH_SHORT).show();
         }
         return u;
     }
@@ -104,7 +104,7 @@ public class UserInfoFragment extends Fragment {
             if (u.getId() != 0) {
                 name.setText(u.getName());
                 lastName.setText(u.getLastName());
-                personalId.setText(u.getPersonalId()+"");
+                personalId.setText(u.getPersonalId());
                 birthDate.setText(u.getBitrhDate());
                 bloodType.setText(u.getBlood());
                 sufferings.setText(u.getSufferings());
@@ -119,22 +119,22 @@ public class UserInfoFragment extends Fragment {
         try {
             ConnectionSQLiteHelper connectionSQLiteHelper = new ConnectionSQLiteHelper(this.getContext(), "HelpMe", null, 1);
             SQLiteDatabase db = connectionSQLiteHelper.getWritableDatabase();
-            ContentValues content= new ContentValues();
-            content.put("personalId",us.getPersonalId());
-            content.put("name",us.getName());
-            content.put("lastName",us.getLastName());
-            content.put("birthDate",us.getBitrhDate());
-            content.put("sufferings",us.getSufferings());
-            content.put("blood",us.getBlood());
-                if (user.getId() != 0 && user.getName() != "") {
-                    //update
-                    db.update("user", content, "id="+user.getId(), null);
-                    user = us;
-                } else {
-                    //create
-                    Long idResult = db.insert("user",null, content);
-                    user = us;
-                }
+            ContentValues content = new ContentValues();
+            content.put("personalId", us.getPersonalId());
+            content.put("name", us.getName());
+            content.put("lastName", us.getLastName());
+            content.put("birthDate", us.getBitrhDate());
+            content.put("sufferings", us.getSufferings());
+            content.put("blood", us.getBlood());
+            if (user.getId() != 0 && user.getName() != "") {
+                //update
+                db.update("user", content, "id=" + user.getId(), null);
+                user = us;
+            } else {
+                //create
+                Long idResult = db.insert("user", null, content);
+                user = us;
+            }
         } catch (Exception e) {
             Toast.makeText(this.getContext(), "ERROR: " + e, Toast.LENGTH_SHORT).show();
         }

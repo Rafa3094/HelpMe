@@ -32,6 +32,7 @@ import com.helpme.RequestPermissionActivity;
 import com.helpme.R;
 import com.helpme.User;
 
+import java.text.Normalizer;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Objects;
@@ -66,6 +67,7 @@ public class HomeFragment extends Fragment {
         // Check permissions
         requestPermission.verifyMessagePermissions(this.getContext(), this.getActivity());
 
+
         ConnectionSQLiteHelper connectionSQLiteHelper = new ConnectionSQLiteHelper(this.getContext(), "HelpMe", null, 1);
         contactsList = connectionSQLiteHelper.getContactsList(this.getContext());
 
@@ -81,22 +83,22 @@ public class HomeFragment extends Fragment {
         btnHelp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                    try {
-                        if (contactsList.size() != 0) {
-                            for (int i = 0; i < contactsList.size(); i++) {
-                                HashMap<String, String> hashmapData = contactsList.get(i);
-                                String name = hashmapData.get("name");
-                                String phone = hashmapData.get("phoneNumber");
-                                getLocation(name, phone);
-                            }
-
-                        } else {
-                            Toast.makeText(Objects.requireNonNull(getActivity()).getApplicationContext(), "You do not have a help contact yet",
-                                    Toast.LENGTH_LONG).show();
+                try {
+                    if (contactsList.size() != 0) {
+                        for (int i = 0; i < contactsList.size(); i++) {
+                            HashMap<String, String> hashmapData = contactsList.get(i);
+                            String name = hashmapData.get("name");
+                            String phone = hashmapData.get("phoneNumber");
+                            getLocation(name, phone);
                         }
-                    } catch (Exception e) {
-                        Toast.makeText(getActivity(), e.getMessage(), Toast.LENGTH_LONG).show();
+
+                    } else {
+                        Toast.makeText(Objects.requireNonNull(getActivity()).getApplicationContext(), "You do not have a help contact yet",
+                                Toast.LENGTH_LONG).show();
                     }
+                } catch (Exception e) {
+                    Toast.makeText(getActivity(), e.getMessage(), Toast.LENGTH_LONG).show();
+                }
 
             }
 
@@ -120,13 +122,12 @@ public class HomeFragment extends Fragment {
     }
 
 
-    private void sendSMS(String name, String phone, String message)
-    {
+    private void sendSMS(String name, String phone, String message) {
 
         try {
             SmsManager smsManager = SmsManager.getDefault();
             smsManager.sendTextMessage(phone, null, message, null, null);
-            Toast.makeText(Objects.requireNonNull(getActivity()).getApplicationContext(), "Message to "+ name +" Sent",
+            Toast.makeText(Objects.requireNonNull(getActivity()).getApplicationContext(), "Message to " + name + " Sent",
                     Toast.LENGTH_LONG).show();
         } catch (Exception ex) {
             Toast.makeText(Objects.requireNonNull(getActivity()).getApplicationContext(),
@@ -140,16 +141,22 @@ public class HomeFragment extends Fragment {
         ConnectivityManager cm = (ConnectivityManager) Objects.requireNonNull(getActivity()).getSystemService(Context.CONNECTIVITY_SERVICE);
         ConnectionSQLiteHelper connectionSQLiteHelper = new ConnectionSQLiteHelper(this.getContext(), "HelpMe", null, 1);
         NetworkInfo ni = cm.getActiveNetworkInfo();
-        User user = connectionSQLiteHelper.getUserData(getContext());
+        User user = connectionSQLiteHelper.getUserData(this.getContext());
 
         if (ni == null) {
-            message = user.getName() + " " + user.getLastName() + " needs your help!\n" + "My GPS off, I can not send you my location\n";
+
+            if (user.getName() == null) {
+                message = "I need your help!\nMy GPS off, I can not send you my location\n";
+            } else {
+                message = "I am " + user.getName() + " " + user.getLastName() + " and need your help!\nMy information is\n" + user.getPersonalId() + "\n" + user.getBitrhDate() + "\n" + user.getBlood() + "\n" + "\nMy GPS off, I can not send you my location";
+            }
+            message = validateMessage(message);
 
         } else {
             locMgr = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
             locProvider = LocationManager.NETWORK_PROVIDER;
 
-            if (checkSelfPermission(Objects.requireNonNull(this.getContext()), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && checkSelfPermission(this.getContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED && checkSelfPermission(this.getContext(), Manifest.permission.SEND_SMS) != PackageManager.PERMISSION_GRANTED){
+            if (checkSelfPermission(Objects.requireNonNull(this.getContext()), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && checkSelfPermission(this.getContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED && checkSelfPermission(this.getContext(), Manifest.permission.SEND_SMS) != PackageManager.PERMISSION_GRANTED) {
 
                 Toast.makeText(getActivity(), "You have to accept the permissions first", Toast.LENGTH_LONG).show();
 
@@ -168,10 +175,30 @@ public class HomeFragment extends Fragment {
             minDistance = 1;
 
             String googleUrl = "https://maps.google.com/?q=" + lat + "," + lng;
-            message = user.getName() + " " + user.getLastName() + " needs your help" + " Please open this link " + googleUrl + " to know my position";
+
+            if (user.getName() == null) {
+                message = "I need your help!\nPlease open this link " + googleUrl + " to know my position";
+            } else {
+                message = "I am " + user.getName() + " " + user.getLastName() + " and need your help!\nMy position is " +googleUrl + "\nMy information is\n" + user.getPersonalId() + "\n" + user.getBitrhDate() + "\n" + user.getBlood();
+            }
+            message = validateMessage(message);
         }
-        sendSMS(name,phone,message);
+        sendSMS(name, phone, message);
     }
 
+
+
+    public String validateMessage(String message) {
+        try {
+            if (message.length() > 160) {
+                message = message.substring(0, 159);
+            }
+            String normalize = Normalizer.normalize(message, Normalizer.Form.NFD);
+            message = normalize.replaceAll("[^\\p{ASCII}]", "");
+        }catch(Exception e) {
+            Toast.makeText(this.getContext(), "ERROR: " + e, Toast.LENGTH_LONG).show();
+        }
+        return message;
+    }
 
 }
