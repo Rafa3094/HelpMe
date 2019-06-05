@@ -14,7 +14,7 @@ public class ConnectionSQLiteHelper extends SQLiteOpenHelper {
 
     final String CREATE_CONTACT_TABLE = "CREATE TABLE IF NOT EXISTS contacts(id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, phoneNumber TEXT)";
     final String CREATE_EMERGENCY_NUMBERS_TABLE = "CREATE TABLE IF NOT EXISTS numbers(id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, phoneNumber TEXT)";
-    final String CREATE_USER_TABLE = "CREATE TABLE IF NOT EXISTS user(id INTEGER PRIMARY KEY AUTOINCREMENT, personalId INTEGER, name TEXT, lastName TEXT, birthDate TEXT, sufferings TEXT, blood TEXT)";
+    final String CREATE_USER_TABLE = "CREATE TABLE IF NOT EXISTS user(id INTEGER PRIMARY KEY AUTOINCREMENT, personalId TEXT, name TEXT, lastName TEXT, birthDate TEXT, sufferings TEXT, blood TEXT)";
     final String CREATE_TUTORIAL_TABLE = "CREATE TABLE IF NOT EXISTS tutorial(id INTEGER PRIMARY KEY AUTOINCREMENT, first INTEGER)";
 
     public ConnectionSQLiteHelper(Context context, String name, SQLiteDatabase.CursorFactory factory, int version) {
@@ -45,14 +45,14 @@ public class ConnectionSQLiteHelper extends SQLiteOpenHelper {
     }
 
     public User getUserData(Context context) {
-        User u = new User(0,0,"","","","","");
+        User u = new User();
         try {
             SQLiteDatabase db = this.getReadableDatabase();
             Cursor cursor = db.rawQuery("SELECT * FROM user", null);
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 int id = cursor.getInt(0);
-                int personalId = cursor.getInt(1);
+                String personalId = cursor.getString(1);
                 String name = cursor.getString(2);
                 String lastName = cursor.getString(3);
                 String birthDate = cursor.getString(4);

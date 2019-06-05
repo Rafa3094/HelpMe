@@ -3,14 +3,14 @@ package com.helpme;
 public class User {
 
     private int id;
-    private int personalId;
+    private String personalId;
     private String name;
     private String lastName;
     private String bitrhDate;
     private String sufferings;
     private String blood;
 
-    public User(int id, int personalId, String name, String lastName, String bitrhDate, String sufferings, String blood) {
+    public User(int id, String personalId, String name, String lastName, String bitrhDate, String sufferings, String blood) {
         this.id = id;
         this.personalId = personalId;
         this.name = name;
@@ -20,7 +20,7 @@ public class User {
         this.blood = blood;
     }
 
-    public User(int personalId, String name, String lastName, String bitrhDate, String sufferings, String blood) {
+    public User(String personalId, String name, String lastName, String bitrhDate, String sufferings, String blood) {
         this.personalId = personalId;
         this.name = name;
         this.lastName = lastName;
@@ -40,11 +40,11 @@ public class User {
         this.id = id;
     }
 
-    public int getPersonalId() {
+    public String getPersonalId() {
         return personalId;
     }
 
-    public void setPersonalId(int personalId) {
+    public void setPersonalId(String personalId) {
         this.personalId = personalId;
     }
 
@@ -86,5 +86,18 @@ public class User {
 
     public void setBlood(String blood) {
         this.blood = blood;
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", personalId=" + personalId +
+                ", name='" + name + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", bitrhDate='" + bitrhDate + '\'' +
+                ", sufferings='" + sufferings + '\'' +
+                ", blood='" + blood + '\'' +
+                '}';
     }
 }

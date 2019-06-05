@@ -60,7 +60,7 @@ public class UserInfoFragment extends Fragment {
                     Toast.makeText(v.getContext(), "can not leave empty spaces", Toast.LENGTH_SHORT).show();
                 } else {
                     //llamar al metodo de crear o actualizar
-                    User us = new User(Integer.parseInt(personalId.getText().toString()), name.getText().toString(), lastName.getText().toString(), birthDate.getText().toString(), sufferings.getText().toString(), bloodType.getText().toString());
+                    User us = new User(personalId.getText().toString(), name.getText().toString(), lastName.getText().toString(), birthDate.getText().toString(), sufferings.getText().toString(), bloodType.getText().toString());
                     saveUserInfo(us);
                     Toast.makeText(v.getContext(), "The changes have been saved", Toast.LENGTH_SHORT).show();
                 }
@@ -79,7 +79,7 @@ public class UserInfoFragment extends Fragment {
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 int id = cursor.getInt(0);
-                int personalId = cursor.getInt(1);
+                String personalId = cursor.getString(1);
                 String name = cursor.getString(2);
                 String lastName = cursor.getString(3);
                 String birthDate = cursor.getString(4);
@@ -104,7 +104,7 @@ public class UserInfoFragment extends Fragment {
             if (u.getId() != 0) {
                 name.setText(u.getName());
                 lastName.setText(u.getLastName());
-                personalId.setText(u.getPersonalId() + "");
+                personalId.setText(u.getPersonalId());
                 birthDate.setText(u.getBitrhDate());
                 bloodType.setText(u.getBlood());
                 sufferings.setText(u.getSufferings());
