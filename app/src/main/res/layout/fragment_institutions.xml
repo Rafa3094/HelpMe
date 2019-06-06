@@ -21,8 +21,8 @@
 
     <android.support.constraint.ConstraintLayout
         android:id="@+id/lboton"
-        android:layout_width="wrap_content"
-        android:layout_height="61dp"
+        android:layout_width="303dp"
+        android:layout_height="57dp"
         android:layout_marginStart="8dp"
         android:layout_marginBottom="12dp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -63,11 +63,12 @@
 
         <TextView
             android:id="@+id/textView9"
-            android:layout_width="134dp"
+            android:layout_width="337dp"
             android:layout_height="23dp"
             android:layout_marginStart="52dp"
             android:layout_marginTop="8dp"
             android:text="Emergency numbers"
+            android:textSize="18sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
