@@ -4,6 +4,7 @@ import android.Manifest;
 import android.content.ContentValues;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
+import android.database.MatrixCursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.provider.ContactsContract;
@@ -112,28 +113,24 @@ public class WhiteListFragment extends Fragment {
                         ListView listView = (ListView) mView.findViewById(R.id.contactsList);
                         mBuilder.setView(mView);
                         final AlertDialog dialog = mBuilder.create();
-                        //parte para llamar los contactos y adaptarlos al listview
-
-                        //final String[] myProjection = {ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME, ContactsContract.CommonDataKinds.Phone.NUMBER, ContactsContract.CommonDataKinds.Phone._ID};
-
-                        final Cursor cursor = getActivity().getContentResolver().query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI, null, null, null, null);
-                        getActivity().startManagingCursor(cursor);
-                        String[] from = {ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME, ContactsContract.CommonDataKinds.Phone.NUMBER, ContactsContract.CommonDataKinds.Phone._ID};
+                        //parte para llamar los contactos, filtrarlos y adaptarlos al listview
+                        Cursor cursor = getActivity().getContentResolver().query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI, null, null, null,  ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME+" ASC");
+                        final MatrixCursor cursor2 = filterContacts(cursor);
+                        getActivity().startManagingCursor(cursor2);
+                        String[] from = {"DISPLAY_NAME", "NORMALIZED_NUMBER", "_ID"};
                         int[] to = {android.R.id.text1, android.R.id.text2};
-                        SimpleCursorAdapter simpleCursorAdapter = new SimpleCursorAdapter(mView.getContext(), android.R.layout.simple_expandable_list_item_2, cursor, from, to);
+                        SimpleCursorAdapter simpleCursorAdapter = new SimpleCursorAdapter(mView.getContext(), android.R.layout.simple_expandable_list_item_2, cursor2, from, to);
                         listView.setAdapter(simpleCursorAdapter);
                         listView.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
                         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                             @Override
                             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                                cursor.moveToPosition(position);
-                                String name = cursor.getString(cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME));
-                                String number = cursor.getString(cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
+                                cursor2.moveToPosition(position);
+                                String name = cursor2.getString(0);
+                                String number = cursor2.getString(1);
                                 Contact contact = new Contact(name, number);
                                 dialog.dismiss();
                                 importContact(contact);
-                                //Toast.makeText(view.getContext(), name + " " + number, Toast.LENGTH_LONG).show();
-
                             }
                         });
                         dialog.show();
@@ -146,6 +143,30 @@ public class WhiteListFragment extends Fragment {
         return v;
     }
 
+    public MatrixCursor filterContacts(Cursor cursor) {
+        MatrixCursor newCursor = new MatrixCursor(new String[] {"DISPLAY_NAME","NORMALIZED_NUMBER","_ID"});
+        ArrayList<String> phones = new ArrayList();
+        try {
+            if (cursor.getCount() > 0) {
+                cursor.moveToFirst();
+                do {
+                    String ids = cursor.getString(cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone._ID));
+                    String name = cursor.getString(cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME));
+                    String phone = cursor.getString(cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NORMALIZED_NUMBER));
+                    if(!phones.contains(phone)) {
+                        phones.add(phone);
+                        newCursor.newRow()
+                                .add("DISPLAY_NAME",name)
+                                .add("NORMALIZED_NUMBER",phone)
+                                .add("_ID",ids);
+                    }
+                } while (cursor.moveToNext());
+            }
+        } catch (Exception e) {
+            Toast.makeText(this.getContext(), "ERROR: " + e, Toast.LENGTH_LONG).show();
+        }
+        return newCursor;
+    }
 
     public void importContact(Contact contact) {
         AlertDialog.Builder mBuilder = new AlertDialog.Builder(view.getContext());
@@ -179,7 +200,6 @@ public class WhiteListFragment extends Fragment {
         });
         dialog.show();
     }
-
 
     public void addContact(Contact c) {
         ConnectionSQLiteHelper connectionSQLiteHelper = new ConnectionSQLiteHelper(this.getContext(), "HelpMe", null, 1);
