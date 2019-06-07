@@ -24,8 +24,6 @@ public class RequestPermissionActivity extends AppCompatActivity {
         if (ActivityCompat.checkSelfPermission(context, Manifest.permission.SEND_SMS) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(activity,new String[]{Manifest.permission.SEND_SMS},REQUEST_ACCESS_FINE);
         }
-
-
     }
 
     @Override
