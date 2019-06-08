@@ -28,6 +28,7 @@ import com.helpme.Contact;
 import com.helpme.R;
 
 import java.util.ArrayList;
+import com.helpme.GeneralFunctions;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -38,6 +39,7 @@ public class WhiteListFragment extends Fragment {
     View view;
     ListView list;
     WhiteListFragment fragment = this;
+    GeneralFunctions functions= new GeneralFunctions();
 
     public WhiteListFragment() {
     }
@@ -205,7 +207,7 @@ public class WhiteListFragment extends Fragment {
         ConnectionSQLiteHelper connectionSQLiteHelper = new ConnectionSQLiteHelper(this.getContext(), "HelpMe", null, 1);
         SQLiteDatabase db = connectionSQLiteHelper.getWritableDatabase();
         ContentValues content = new ContentValues();
-        content.put("name", c.getName());
+        content.put("name", functions.cuttext(17,c.getName()));
         content.put("phoneNumber", c.getPhoneNumber());
         Long idResult = db.insert("contacts", null, content);
         list.setAdapter(new listAdapter(this.getContext(), getContactsList(), fragment));
@@ -256,7 +258,7 @@ public class WhiteListFragment extends Fragment {
         ConnectionSQLiteHelper connectionSQLiteHelper = new ConnectionSQLiteHelper(this.getContext(), "HelpMe", null, 1);
         SQLiteDatabase db = connectionSQLiteHelper.getWritableDatabase();
         ContentValues content = new ContentValues();
-        content.put("name", c.getName());
+        content.put("name", functions.cuttext(17,c.getName()));
         content.put("phoneNumber", c.getPhoneNumber());
         db.update("contacts", content, "id=" + c.getId(), null);
         list.setAdapter(new listAdapter(this.getContext(), getContactsList(), fragment));

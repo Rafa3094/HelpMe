@@ -22,6 +22,7 @@ import com.helpme.Entities.EmergencyNumber;
 import com.helpme.R;
 
 import java.util.ArrayList;
+import com.helpme.GeneralFunctions;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -31,6 +32,8 @@ public class InstitutionsFragment extends Fragment {
     View view;
     ListView list;
     InstitutionsFragment inst;
+    GeneralFunctions functions= new GeneralFunctions();
+
 
     public InstitutionsFragment() {
         // Required empty public constructor
@@ -95,7 +98,7 @@ public class InstitutionsFragment extends Fragment {
         ConnectionSQLiteHelper connectionSQLiteHelper = new ConnectionSQLiteHelper(this.getContext(), "HelpMe", null, 1);
         SQLiteDatabase db = connectionSQLiteHelper.getWritableDatabase();
         ContentValues content = new ContentValues();
-        content.put("name", c.getName());
+        content.put("name", functions.cuttext(10,c.getName()));
         content.put("phoneNumber", c.getPhone());
         Long idResult = db.insert("numbers", null, content);
         list.setAdapter(new institutionListAdapter(this.getContext(), getCallList(), inst));
@@ -126,7 +129,7 @@ public class InstitutionsFragment extends Fragment {
         ConnectionSQLiteHelper connectionSQLiteHelper = new ConnectionSQLiteHelper(this.getContext(), "HelpMe", null, 1);
         SQLiteDatabase db = connectionSQLiteHelper.getWritableDatabase();
         ContentValues content = new ContentValues();
-        content.put("name", c.getName());
+        content.put("name", functions.cuttext(10,c.getName()));
         content.put("phoneNumber", c.getPhone());
         db.update("numbers", content, "id=" + c.getId(), null);
         list.setAdapter(new institutionListAdapter(this.getContext(), getCallList(), inst));
