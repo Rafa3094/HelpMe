@@ -22,6 +22,7 @@ import com.helpme.Entities.EmergencyNumber;
 import com.helpme.R;
 
 import java.util.ArrayList;
+import com.helpme.GeneralFunctions;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -31,6 +32,8 @@ public class InstitutionsFragment extends Fragment {
     View view;
     ListView list;
     InstitutionsFragment inst;
+    GeneralFunctions functions= new GeneralFunctions();
+
 
     public InstitutionsFragment() {
         // Required empty public constructor
@@ -46,18 +49,18 @@ public class InstitutionsFragment extends Fragment {
         view = inflater.inflate(R.layout.fragment_institutions, container, false);
         view = callAddNumber(view);
         list = view.findViewById(R.id.emergency_list);
-        list.setAdapter(new institutionListAdapter(this.getContext(),getCallList(), inst));
+        list.setAdapter(new institutionListAdapter(this.getContext(), getCallList(), inst));
         return view;
     }
 
 
-    private View callAddNumber(View v){
+    private View callAddNumber(View v) {
         Button mShowDialog = (Button) v.findViewById(R.id.button);
-        mShowDialog.setOnClickListener(new View.OnClickListener(){
+        mShowDialog.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view){
+            public void onClick(View view) {
                 AlertDialog.Builder mBuilder = new AlertDialog.Builder(view.getContext());
-                View mView = getLayoutInflater().inflate(R.layout.dialog_addcontact,null);
+                View mView = getLayoutInflater().inflate(R.layout.dialog_addcontact, null);
                 TextView title = (TextView) mView.findViewById(R.id.textViewTitle);
                 title.setText("Institution information");
                 final EditText mName = (EditText) mView.findViewById(R.id.editTextNombre);
@@ -69,13 +72,13 @@ public class InstitutionsFragment extends Fragment {
                 mButtonSave.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        if(mName.getText().toString().isEmpty() || mPhone.getText().toString().isEmpty()){
-                            Toast.makeText(v.getContext(),"can not leave empty spaces",Toast.LENGTH_SHORT).show();
+                        if (mName.getText().toString().isEmpty() || mPhone.getText().toString().isEmpty()) {
+                            Toast.makeText(v.getContext(), "can not leave empty spaces", Toast.LENGTH_SHORT).show();
                         } else {
                             EmergencyNumber num = new EmergencyNumber(mName.getText().toString(), mPhone.getText().toString());
                             addNumber(num);
                             dialog.dismiss();
-                            Toast.makeText(v.getContext(),"The changes have been saved",Toast.LENGTH_SHORT).show();
+                            Toast.makeText(v.getContext(), "The changes have been saved", Toast.LENGTH_SHORT).show();
                         }
                     }
                 });
@@ -91,14 +94,14 @@ public class InstitutionsFragment extends Fragment {
         return v;
     }
 
-    public void addNumber (EmergencyNumber c) {
+    public void addNumber(EmergencyNumber c) {
         ConnectionSQLiteHelper connectionSQLiteHelper = new ConnectionSQLiteHelper(this.getContext(), "HelpMe", null, 1);
         SQLiteDatabase db = connectionSQLiteHelper.getWritableDatabase();
         ContentValues content = new ContentValues();
-        content.put("name", c.getName());
+        content.put("name", functions.cuttext(10,c.getName()));
         content.put("phoneNumber", c.getPhone());
-        Long idResult = db.insert("numbers",null, content);
-        list.setAdapter(new institutionListAdapter(this.getContext(),getCallList(), inst));
+        Long idResult = db.insert("numbers", null, content);
+        list.setAdapter(new institutionListAdapter(this.getContext(), getCallList(), inst));
     }
 
     private ArrayList<EmergencyNumber> getCallList() {
@@ -107,7 +110,7 @@ public class InstitutionsFragment extends Fragment {
             ConnectionSQLiteHelper connectionSQLiteHelper = new ConnectionSQLiteHelper(this.getContext(), "HelpMe", null, 1);
             SQLiteDatabase db = connectionSQLiteHelper.getReadableDatabase();
             Cursor cursor = db.rawQuery("SELECT id, name, phoneNumber FROM numbers", null);
-            if (cursor != null || cursor.getCount() > 0) {
+            if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 do {
                     int id = cursor.getInt(0);
@@ -116,27 +119,27 @@ public class InstitutionsFragment extends Fragment {
                     list.add(new EmergencyNumber(id, name, phone));
                 } while (cursor.moveToNext());
             }
-        } catch(Exception e) {
+        } catch (Exception e) {
 
         }
         return list;
     }
 
-    public void editNumber (EmergencyNumber c) {
+    public void editNumber(EmergencyNumber c) {
         ConnectionSQLiteHelper connectionSQLiteHelper = new ConnectionSQLiteHelper(this.getContext(), "HelpMe", null, 1);
         SQLiteDatabase db = connectionSQLiteHelper.getWritableDatabase();
-        ContentValues content= new ContentValues();
-        content.put("name", c.getName());
+        ContentValues content = new ContentValues();
+        content.put("name", functions.cuttext(10,c.getName()));
         content.put("phoneNumber", c.getPhone());
-        db.update("numbers", content, "id="+c.getId(), null);
-        list.setAdapter(new institutionListAdapter(this.getContext(),getCallList(), inst));
+        db.update("numbers", content, "id=" + c.getId(), null);
+        list.setAdapter(new institutionListAdapter(this.getContext(), getCallList(), inst));
     }
 
     public void deleteNumber(int id) {
         ConnectionSQLiteHelper connectionSQLiteHelper = new ConnectionSQLiteHelper(this.getContext(), "HelpMe", null, 1);
         SQLiteDatabase db = connectionSQLiteHelper.getWritableDatabase();
-        db.delete("numbers", "id="+id, null);
-        list.setAdapter(new institutionListAdapter(this.getContext(),getCallList(), inst));
+        db.delete("numbers", "id=" + id, null);
+        list.setAdapter(new institutionListAdapter(this.getContext(), getCallList(), inst));
     }
 }
 

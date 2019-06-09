@@ -82,7 +82,9 @@ public class UserInfoFragment extends Fragment implements DatePickerDialog.OnDat
                 //Toast.makeText(v.getContext(), "ajá", Toast.LENGTH_SHORT).show();
                 if (name.getText().toString().isEmpty() || lastName.getText().toString().isEmpty() || personalId.getText().toString().isEmpty()
                         || birthDate.getText().toString().isEmpty() || bloodType.getText().toString().isEmpty() || sufferings.getText().toString().isEmpty()) {
-                    Toast.makeText(v.getContext(), "Please do not leave any empty spaces", Toast.LENGTH_SHORT).show();
+
+                  Toast.makeText(v.getContext(), "Please do not leave any empty spaces", Toast.LENGTH_SHORT).show();
+                  
                 } else {
                     //llamar al metodo de crear o actualizar
                     User us = new User(personalId.getText().toString(), name.getText().toString(), lastName.getText().toString(), birthDate.getText().toString(), sufferings.getText().toString(), bloodType.getText().toString());
