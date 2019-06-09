@@ -15,7 +15,7 @@
         android:layout_weight="1"
         android:ems="10"
         android:inputType="textPersonName"
-        android:text="@string/myName"
+        android:text=""
         app:layout_constraintBottom_toTopOf="@+id/guideline7"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
@@ -65,7 +65,7 @@
         android:layout_weight="1"
         android:ems="10"
         android:inputType="textPersonName"
-        android:text="@string/myLastName"
+        android:text=""
         app:layout_constraintBottom_toTopOf="@+id/guideline8"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
@@ -107,22 +107,36 @@
         app:layout_constraintTop_toTopOf="@+id/guideline8" />
     />
 
-    <EditText
+    <TextView
         android:id="@+id/myBirthDateBox"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="127dp"
+        android:layout_height="31dp"
         android:layout_marginTop="8dp"
         android:layout_marginBottom="8dp"
-        android:layout_weight="1"
+        android:contentDescription="mm/dd/year"
         android:ems="10"
         android:inputType="date"
         app:layout_constraintBottom_toTopOf="@+id/guideline10"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintHorizontal_bias="0.106"
         app:layout_constraintStart_toStartOf="@+id/guideline6"
         app:layout_constraintTop_toTopOf="@+id/guideline9"
         app:layout_constraintVertical_bias="1.0" />
     />
+
+    <Button
+        android:id="@+id/myBirthDateBtn"
+        android:layout_width="114dp"
+        android:layout_height="46dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
+        android:text="Select Date"
+        app:layout_constraintBottom_toTopOf="@+id/guideline10"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.976"
+        app:layout_constraintStart_toStartOf="@+id/guideline6"
+        app:layout_constraintTop_toTopOf="@+id/guideline9"
+        app:layout_constraintVertical_bias="1.0" />
 
     <TextView
         android:id="@+id/lblMyBirthDate"
@@ -165,7 +179,7 @@
         android:layout_weight="1"
         android:ems="10"
         android:inputType="textPersonName"
-        android:text="@string/myBloodType"
+        android:text=""
         app:layout_constraintBottom_toTopOf="@+id/guideline11"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
@@ -182,7 +196,7 @@
         android:layout_weight="1"
         android:ems="10"
         android:inputType="textPersonName"
-        android:text="@string/mySufferings"
+        android:text=""
         app:layout_constraintBottom_toTopOf="@+id/guideline12"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
@@ -208,16 +222,15 @@
 
     <Button
         android:id="@+id/editButton"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_width="307dp"
+        android:layout_height="46dp"
         android:layout_marginTop="8dp"
         android:text="Save information"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/guideline12"
-        app:layout_constraintVertical_bias="0.237" />
+        app:layout_constraintVertical_bias="0.906" />
     />
 
     <android.support.constraint.Guideline
@@ -268,4 +281,6 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         app:layout_constraintGuide_begin="347dp" />
+
+
 </android.support.constraint.ConstraintLayout>
