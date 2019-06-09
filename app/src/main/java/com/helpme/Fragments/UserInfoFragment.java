@@ -1,6 +1,7 @@
 package com.helpme.Fragments;
 
 
+import android.app.DatePickerDialog;
 import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -11,7 +12,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.helpme.ConnectionSQLiteHelper;
@@ -19,14 +22,17 @@ import com.helpme.User;
 
 import com.helpme.R;
 
+import java.util.Calendar;
+
 /**
  * A simple {@link Fragment} subclass.
  */
-public class UserInfoFragment extends Fragment {
+public class UserInfoFragment extends Fragment implements DatePickerDialog.OnDateSetListener {
 
 
     View view;
     User user;
+    TextView dateText;
 
     public UserInfoFragment() {
     }
@@ -39,16 +45,35 @@ public class UserInfoFragment extends Fragment {
         user = getUser();
         view = fillUser(user, view);
         view = saveUserInfoButton(view);
+        dateText = view.findViewById(R.id.myBirthDateBox);
+
+        view.findViewById(R.id.myBirthDateBtn).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showDatePickerDialog();
+            }
+        });
         return view;
     }
 
+    private void showDatePickerDialog(){
+        DatePickerDialog dialog = new DatePickerDialog(
+                getContext(),
+                this,
+                Calendar.getInstance().get(Calendar.YEAR),
+                Calendar.getInstance().get(Calendar.MONTH),
+                Calendar.getInstance().get(Calendar.DAY_OF_MONTH)
+        );
+        dialog.show();
+
+    }
 
     public View saveUserInfoButton(View v) {
         final Button saveButton = (Button) v.findViewById(R.id.editButton);
         final EditText name = (EditText) v.findViewById(R.id.myNameBox);
         final EditText lastName = (EditText) v.findViewById(R.id.myLastNameBox);
         final EditText personalId = (EditText) v.findViewById(R.id.myIDBox);
-        final EditText birthDate = (EditText) v.findViewById(R.id.myBirthDateBox);
+        final TextView birthDate = (TextView) v.findViewById(R.id.myBirthDateBox);
         final EditText bloodType = (EditText) v.findViewById(R.id.myBloodBox);
         final EditText sufferings = (EditText) v.findViewById(R.id.mySufferingsBox);
         saveButton.setOnClickListener(new View.OnClickListener() {
@@ -57,7 +82,9 @@ public class UserInfoFragment extends Fragment {
                 //Toast.makeText(v.getContext(), "ajá", Toast.LENGTH_SHORT).show();
                 if (name.getText().toString().isEmpty() || lastName.getText().toString().isEmpty() || personalId.getText().toString().isEmpty()
                         || birthDate.getText().toString().isEmpty() || bloodType.getText().toString().isEmpty() || sufferings.getText().toString().isEmpty()) {
-                    Toast.makeText(v.getContext(), "can not leave empty spaces", Toast.LENGTH_SHORT).show();
+
+                  Toast.makeText(v.getContext(), "Please do not leave any empty spaces", Toast.LENGTH_SHORT).show();
+                  
                 } else {
                     //llamar al metodo de crear o actualizar
                     User us = new User(personalId.getText().toString(), name.getText().toString(), lastName.getText().toString(), birthDate.getText().toString(), sufferings.getText().toString(), bloodType.getText().toString());
@@ -97,7 +124,7 @@ public class UserInfoFragment extends Fragment {
         final EditText name = (EditText) v.findViewById(R.id.myNameBox);
         final EditText lastName = (EditText) v.findViewById(R.id.myLastNameBox);
         final EditText personalId = (EditText) v.findViewById(R.id.myIDBox);
-        final EditText birthDate = (EditText) v.findViewById(R.id.myBirthDateBox);
+        final TextView birthDate = (TextView) v.findViewById(R.id.myBirthDateBox);
         final EditText bloodType = (EditText) v.findViewById(R.id.myBloodBox);
         final EditText sufferings = (EditText) v.findViewById(R.id.mySufferingsBox);
         try {
@@ -140,4 +167,10 @@ public class UserInfoFragment extends Fragment {
         }
     }
 
+    @Override
+    public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+        month = month + 1;
+        String date = month + "/" + dayOfMonth + "/" + year;
+        dateText.setText(date);
+    }
 }
