@@ -47,12 +47,13 @@ public class UserInfoFragment extends Fragment implements DatePickerDialog.OnDat
         view = saveUserInfoButton(view);
         dateText = view.findViewById(R.id.myBirthDateBox);
 
-        view.findViewById(R.id.myBirthDateBtn).setOnClickListener(new View.OnClickListener() {
+        view.findViewById(R.id.myBirthDateBox).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 showDatePickerDialog();
             }
         });
+
         return view;
     }
 
@@ -171,6 +172,7 @@ public class UserInfoFragment extends Fragment implements DatePickerDialog.OnDat
     public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
         month = month + 1;
         String date = month + "/" + dayOfMonth + "/" + year;
+
         dateText.setText(date);
     }
 }
