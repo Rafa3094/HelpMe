@@ -73,6 +73,8 @@ public class WhiteListFragment extends Fragment {
                 final EditText mPhone = (EditText) mView.findViewById(R.id.editTextTelefono);
                 Button mButtonCancel = (Button) mView.findViewById(R.id.buttonCancel);
                 Button mButtonSave = (Button) mView.findViewById(R.id.buttonOk);
+                mName.requestFocus(); //Coloca el cursor en el campo nombre
+
                 mBuilder.setView(mView);
                 final AlertDialog dialog = mBuilder.create();
                 mButtonSave.setOnClickListener(new View.OnClickListener() {
