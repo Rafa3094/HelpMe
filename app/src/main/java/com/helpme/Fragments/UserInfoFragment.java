@@ -1,23 +1,38 @@
 package com.helpme.Fragments;
 
 
+import android.Manifest;
 import android.app.DatePickerDialog;
 import android.content.ContentValues;
+import android.content.DialogInterface;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
+import android.database.MatrixCursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.provider.ContactsContract;
 import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AlertDialog;
+import android.support.v7.widget.AppCompatSpinner;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.ListView;
+import android.widget.SimpleCursorAdapter;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.helpme.ConnectionSQLiteHelper;
+import com.helpme.Contact;
 import com.helpme.User;
 
 import com.helpme.R;
@@ -33,6 +48,7 @@ public class UserInfoFragment extends Fragment implements DatePickerDialog.OnDat
     View view;
     User user;
     TextView dateText;
+    TextView bloodType;
 
     public UserInfoFragment() {
     }
@@ -46,6 +62,14 @@ public class UserInfoFragment extends Fragment implements DatePickerDialog.OnDat
         view = fillUser(user, view);
         view = saveUserInfoButton(view);
         dateText = view.findViewById(R.id.myBirthDateBox);
+        bloodType = view.findViewById(R.id.myBloodBox);
+
+        view.findViewById(R.id.myBloodBox).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showBloodList();
+            }
+        });
 
         view.findViewById(R.id.myBirthDateBox).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -57,6 +81,36 @@ public class UserInfoFragment extends Fragment implements DatePickerDialog.OnDat
         return view;
     }
 
+    private void showBloodList(){
+        final String[] bloodTypes = {"A+", "A-", "B+", "B-","O+","O-", "AB+", "AB-", "Unknown"};
+        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+        builder.setTitle("Select Blood Type");
+
+
+        final int checkedItem = 0; //this will checked the item when user open the dialog
+        builder.setSingleChoiceItems(bloodTypes, checkedItem, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                //Toast.makeText(getContext(), "Position: " + which + " Value: " + bloodTypes[which], Toast.LENGTH_LONG).show();
+                String blood = bloodTypes[which];
+                bloodType.setText(blood);
+            }
+        });
+
+        builder.setPositiveButton("Done", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+
+                dialog.dismiss();
+            }
+        });
+
+        AlertDialog dialog = builder.create();
+        dialog.show();
+
+    }
+
     private void showDatePickerDialog(){
         DatePickerDialog dialog = new DatePickerDialog(
                 getContext(),
@@ -66,7 +120,6 @@ public class UserInfoFragment extends Fragment implements DatePickerDialog.OnDat
                 Calendar.getInstance().get(Calendar.DAY_OF_MONTH)
         );
         dialog.show();
-
     }
 
     public View saveUserInfoButton(View v) {
@@ -96,7 +149,6 @@ public class UserInfoFragment extends Fragment implements DatePickerDialog.OnDat
         });
         return v;
     }
-
 
     public User getUser() {
         User u = new User();
@@ -172,7 +224,6 @@ public class UserInfoFragment extends Fragment implements DatePickerDialog.OnDat
     public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
         month = month + 1;
         String date = month + "/" + dayOfMonth + "/" + year;
-
         dateText.setText(date);
     }
 }
