@@ -105,38 +105,6 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/guideline8" />
-    />
-
-    <TextView
-        android:id="@+id/myBirthDateBox"
-        android:layout_width="127dp"
-        android:layout_height="31dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginBottom="8dp"
-        android:contentDescription="mm/dd/year"
-        android:ems="10"
-        android:inputType="date"
-        app:layout_constraintBottom_toTopOf="@+id/guideline10"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.106"
-        app:layout_constraintStart_toStartOf="@+id/guideline6"
-        app:layout_constraintTop_toTopOf="@+id/guideline9"
-        app:layout_constraintVertical_bias="1.0" />
-    />
-
-    <Button
-        android:id="@+id/myBirthDateBtn"
-        android:layout_width="114dp"
-        android:layout_height="46dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginBottom="8dp"
-        android:text="Select Date"
-        app:layout_constraintBottom_toTopOf="@+id/guideline10"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.976"
-        app:layout_constraintStart_toStartOf="@+id/guideline6"
-        app:layout_constraintTop_toTopOf="@+id/guideline9"
-        app:layout_constraintVertical_bias="1.0" />
 
     <TextView
         android:id="@+id/lblMyBirthDate"
@@ -154,6 +122,24 @@
         app:layout_constraintTop_toTopOf="@+id/guideline9" />
     />
 
+    <EditText
+        android:id="@+id/myBirthDateBox"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
+        android:clickable="false"
+        android:ems="10"
+        android:focusable="false"
+        android:inputType="none"
+        android:textIsSelectable="true"
+        app:layout_constraintBottom_toTopOf="@+id/myBloodBox"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/guideline6"
+        app:layout_constraintTop_toBottomOf="@+id/myIDBox" />
+    />
+
     <TextView
         android:id="@+id/lblBloodType"
         android:layout_width="wrap_content"
@@ -168,7 +154,6 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/guideline10" />
-    />
 
     <EditText
         android:id="@+id/myBloodBox"
