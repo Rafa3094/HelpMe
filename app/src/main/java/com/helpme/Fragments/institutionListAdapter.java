@@ -91,7 +91,7 @@ public class institutionListAdapter extends BaseAdapter {
                 AlertDialog.Builder mBuilder = new AlertDialog.Builder(v.getContext());
                 View mView = inflater.inflate(R.layout.dialog_killcontact,null);
                 TextView title = (TextView) mView.findViewById(R.id.textViewTitle);
-                title.setText("Institution information");
+                title.setText("   Institution information");
                 final TextView mName = (TextView) mView.findViewById(R.id.textViewNombre);
                 final TextView mPhone = (TextView) mView.findViewById(R.id.textViewTelefono);
                 mName.setText(emergencyList.get(index).getName());

@@ -8,7 +8,7 @@ public class GeneralFunctions {
 
         for(int i=0;i<pName.length();i++){
 
-            if(i % pCantCaracteres == 0)
+            if((i % pCantCaracteres == 0)&&(i>0))
                 name=name+"\n";
 
             name=name+pName.substring(i,(i+1));
