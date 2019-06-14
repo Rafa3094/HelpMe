@@ -214,6 +214,8 @@
         android:layout_height="46dp"
         android:layout_marginTop="8dp"
         android:text="Save information"
+        android:background="@drawable/btn_green"
+        android:textColor="@drawable/txt_btn_green"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

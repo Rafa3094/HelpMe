@@ -14,6 +14,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.helpme.Fragments.AboutUs;
 import com.helpme.Fragments.HomeFragment;
 import com.helpme.Fragments.InstitutionsFragment;
 import com.helpme.Fragments.UserInfoFragment;
@@ -99,6 +100,9 @@ public class MainActivity extends AppCompatActivity
 
         } else if (id == R.id.nav_user) {
             loadFragment(new UserInfoFragment());
+
+        }  else if (id == R.id.nav_about_us) {
+            loadFragment(new AboutUs());
         }
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
