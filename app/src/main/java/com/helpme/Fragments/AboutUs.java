@@ -6,6 +6,9 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
+
+import com.helpme.BuildConfig;
 import com.helpme.R;
 
 
@@ -23,7 +26,9 @@ public class AboutUs extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        view = inflater.inflate(R.layout.fragment_about_us, container, false);;
+        view = inflater.inflate(R.layout.fragment_about_us, container, false);
+        TextView version= view.findViewById(R.id.tversionapp);
+        version.setText("HelpMe! V" + BuildConfig.VERSION_NAME);
         return view;
     }
 
