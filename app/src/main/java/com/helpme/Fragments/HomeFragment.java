@@ -9,6 +9,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.location.Criteria;
 import android.location.Location;
+import android.location.LocationListener;
 import android.location.LocationManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -43,7 +44,7 @@ import static android.support.v4.content.ContextCompat.checkSelfPermission;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class HomeFragment extends Fragment {
+public class HomeFragment extends Fragment implements LocationListener {
     Button btnHelp;
     ArrayList<HashMap<String, String>> contactsList;
     String message = "";
@@ -136,6 +137,12 @@ public class HomeFragment extends Fragment {
             ex.printStackTrace();
         }
     }
+    private boolean gpsOn(){
+        LocationManager location=(LocationManager)getActivity().getSystemService(Context.LOCATION_SERVICE);
+
+        return (( (location.isProviderEnabled(LocationManager.GPS_PROVIDER)==false) &&
+                (location.isProviderEnabled(LocationManager.NETWORK_PROVIDER)==false))?false:true);
+    }
 
     private void getLocation(String name, String phone) {
         ConnectivityManager cm = (ConnectivityManager) Objects.requireNonNull(getActivity()).getSystemService(Context.CONNECTIVITY_SERVICE);
@@ -143,47 +150,54 @@ public class HomeFragment extends Fragment {
         NetworkInfo ni = cm.getActiveNetworkInfo();
         User user = connectionSQLiteHelper.getUserData(this.getContext());
 
-        if (ni == null) {
+        try {
+            if(gpsOn()==true){
+                locMgr = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
+                locProvider = LocationManager.NETWORK_PROVIDER;
 
-            if (user.getName() == null) {
-                message = "I need your help!\nMy GPS off, I can not send you my location\n";
-            } else {
-                message = "I am " + user.getName() + " " + user.getLastName() + " and need your help!\nMy information is\n" + user.getPersonalId() + "\n" + user.getBitrhDate() + "\n" + user.getBlood() + "\n" + "\nMy GPS off, I can not send you my location";
+                if (checkSelfPermission(Objects.requireNonNull(this.getContext()), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && checkSelfPermission(this.getContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED && checkSelfPermission(this.getContext(), Manifest.permission.SEND_SMS) != PackageManager.PERMISSION_GRANTED) {
+
+                    Toast.makeText(getActivity(), "You have to accept the permissions first", Toast.LENGTH_LONG).show();
+
+                    return;
+                }
+
+                locMgr.requestLocationUpdates(locProvider,2000,1,this);//Actualiza y recupera la ubicación
+
+
+                    Location lastKnownLocation = locMgr.getLastKnownLocation(locProvider);
+                    lat = lastKnownLocation.getLatitude();
+                    lng = lastKnownLocation.getLongitude();
+
+
+                Criteria cr = new Criteria();
+                cr.setAccuracy(Criteria.ACCURACY_FINE);
+
+                locProvider = locMgr.getBestProvider(cr, false);
+                minTime = 60 * 1000;
+                minDistance = 1;
+
+                String googleUrl = "https://maps.google.com/?q=" + lat + "," + lng;
+
+                if (user.getName() == null) {
+                    message = "I need your help!\nPlease open this link " + googleUrl + " to know my position";
+                } else {
+                    message = "I am " + user.getName() + " " + user.getLastName() + " and need your help!\nMy position is " +googleUrl + "\nMy information is\n" + user.getPersonalId() + "\n" + user.getBitrhDate() + "\n" + user.getBlood();
+                }
+            }else{
+                if (user.getName() == null) {
+                    message = "I need your help!\nMy GPS is off, I can not send you my location\n";
+                } else {
+                    message = "I am " + user.getName() + " " + user.getLastName() + " and need your help!\nMy information is\n" + user.getPersonalId() + "\n" + user.getBitrhDate() + "\n" + user.getBlood() + "\n" + "\nMy GPS is off, I can not send you my location";
+                }
             }
+
             message = validateMessage(message);
 
-        } else {
-            locMgr = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
-            locProvider = LocationManager.NETWORK_PROVIDER;
-
-            if (checkSelfPermission(Objects.requireNonNull(this.getContext()), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && checkSelfPermission(this.getContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED && checkSelfPermission(this.getContext(), Manifest.permission.SEND_SMS) != PackageManager.PERMISSION_GRANTED) {
-
-                Toast.makeText(getActivity(), "You have to accept the permissions first", Toast.LENGTH_LONG).show();
-
-                return;
-            }
-
-            Location lastKnownLocation = locMgr.getLastKnownLocation(locProvider);
-            lat = lastKnownLocation.getLatitude();
-            lng = lastKnownLocation.getLongitude();
-
-            Criteria cr = new Criteria();
-            cr.setAccuracy(Criteria.ACCURACY_FINE);
-
-            locProvider = locMgr.getBestProvider(cr, false);
-            minTime = 60 * 1000;
-            minDistance = 1;
-
-            String googleUrl = "https://maps.google.com/?q=" + lat + "," + lng;
-
-            if (user.getName() == null) {
-                message = "I need your help!\nPlease open this link " + googleUrl + " to know my position";
-            } else {
-                message = "I am " + user.getName() + " " + user.getLastName() + " and need your help!\nMy position is " +googleUrl + "\nMy information is\n" + user.getPersonalId() + "\n" + user.getBitrhDate() + "\n" + user.getBlood();
-            }
-            message = validateMessage(message);
-        }
         sendSMS(name, phone, message);
+        }catch(Exception e) {
+            Toast.makeText(this.getContext(), "Wait 2 seconds and try again", Toast.LENGTH_LONG).show();
+        }
     }
 
 
@@ -201,4 +215,23 @@ public class HomeFragment extends Fragment {
         return message;
     }
 
+    @Override
+    public void onLocationChanged(Location location) {
+
+    }
+
+    @Override
+    public void onStatusChanged(String provider, int status, Bundle extras) {
+
+    }
+
+    @Override
+    public void onProviderEnabled(String provider) {
+
+    }
+
+    @Override
+    public void onProviderDisabled(String provider) {
+
+    }
 }
