@@ -3,10 +3,11 @@ package com.helpme.Fragments;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationListener;
@@ -14,17 +15,15 @@ import android.location.LocationManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.support.annotation.NonNull;
-import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.telephony.SmsManager;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CompoundButton;
-import android.widget.ImageButton;
 import android.widget.Switch;
 import android.widget.Toast;
 
@@ -38,7 +37,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Objects;
 
+import static android.content.Context.LOCATION_SERVICE;
 import static android.support.v4.content.ContextCompat.checkSelfPermission;
+
 
 
 /**
@@ -55,6 +56,9 @@ public class HomeFragment extends Fragment implements LocationListener {
     long minTime;
     float minDistance;
     RequestPermissionActivity requestPermission = new RequestPermissionActivity();
+    LocationManager locationManager;
+    AlertDialog alert = null;
+    LocationListener locationListener;
 
     public HomeFragment() {
         // Required empty public constructor
@@ -67,6 +71,12 @@ public class HomeFragment extends Fragment implements LocationListener {
                              Bundle savedInstanceState) {
         // Check permissions
         requestPermission.verifyMessagePermissions(this.getContext(), this.getActivity());
+
+        // Check gps
+
+        if ( !gpsOn()) {
+            AlertNoGps();
+        }
 
 
         ConnectionSQLiteHelper connectionSQLiteHelper = new ConnectionSQLiteHelper(this.getContext(), "HelpMe", null, 1);
@@ -122,6 +132,15 @@ public class HomeFragment extends Fragment implements LocationListener {
 
     }
 
+    private void AlertNoGps() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this.getContext());
+        builder.setMessage("Seems Like location service is off, Enable this to show your location") .setPositiveButton("YES",
+                new DialogInterface.OnClickListener() { @Override public void onClick(DialogInterface dialogInterface, int i) {
+                    Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+                    startActivity(intent); } }).setNegativeButton("NO THANKS", null).create().show();
+
+    }
+
 
     private void sendSMS(String name, String phone, String message) {
 
@@ -138,7 +157,7 @@ public class HomeFragment extends Fragment implements LocationListener {
         }
     }
     private boolean gpsOn(){
-        LocationManager location=(LocationManager)getActivity().getSystemService(Context.LOCATION_SERVICE);
+        LocationManager location=(LocationManager)getActivity().getSystemService(LOCATION_SERVICE);
 
         return (( (location.isProviderEnabled(LocationManager.GPS_PROVIDER)==false) &&
                 (location.isProviderEnabled(LocationManager.NETWORK_PROVIDER)==false))?false:true);
@@ -152,7 +171,7 @@ public class HomeFragment extends Fragment implements LocationListener {
 
         try {
             if(gpsOn()==true){
-                locMgr = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
+                locMgr = (LocationManager) getActivity().getSystemService(LOCATION_SERVICE);
                 locProvider = LocationManager.NETWORK_PROVIDER;
 
                 if (checkSelfPermission(Objects.requireNonNull(this.getContext()), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && checkSelfPermission(this.getContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED && checkSelfPermission(this.getContext(), Manifest.permission.SEND_SMS) != PackageManager.PERMISSION_GRANTED) {
