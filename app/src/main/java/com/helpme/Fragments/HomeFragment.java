@@ -134,7 +134,7 @@ public class HomeFragment extends Fragment implements LocationListener {
 
     private void AlertNoGps() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this.getContext());
-        builder.setMessage("Seems Like location service is off, Enable this to show your location") .setPositiveButton("YES",
+        builder.setMessage("Seems Like location service is off, Enable this to show your location in the help message") .setPositiveButton("YES",
                 new DialogInterface.OnClickListener() { @Override public void onClick(DialogInterface dialogInterface, int i) {
                     Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
                     startActivity(intent); } }).setNegativeButton("NO THANKS", null).create().show();
